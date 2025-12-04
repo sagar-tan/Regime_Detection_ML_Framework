@@ -13,6 +13,10 @@ from strategies.static import StaticStrategy
 from strategies.regime_specific import RegimeSpecificStrategy
 from strategies.hybrid import HybridStrategy
 
+from backtest.transaction_costs import TransactionCosts
+from backtest.portfolio import Portfolio
+
+
 
 logger = setup_logger("walk_forward_engine", log_file="walk_forward_engine.log")
 
@@ -154,6 +158,9 @@ def walk_forward_backtest(
     cash_equity = 1.0
     prev_signal = 0
 
+    tc = TransactionCosts(base_cost_rate=TRANSACTION_COST, slippage_per_trade=0.0000)
+    portfolio = Portfolio(initial_equity=1.0, prev_signal=prev_signal)
+
     # we'll iterate day by day
     i = start_idx
     while i + horizon - 1 < n:
@@ -166,7 +173,6 @@ def walk_forward_backtest(
             logger.warning(f"Skipping index {i}, not enough training samples: {len(train_slice)}")
             i += STEP_DAYS
             continue
-
         # detect regime change between previous day and current day
         regime_changed = False
         if train_end_idx >= 1:
@@ -247,12 +253,11 @@ def walk_forward_backtest(
             day_ret = df.iloc[next_ret_idx][ret_col]
         else:
             day_ret = 0.0
+    
+        # use transaction costs module
+        trade_cost = tc.compute_trade_cost(prev_signal, signal, notional=portfolio.cash_equity)
+        pnl, new_equity = portfolio.step(df.index[next_ret_idx], int(signal), float(day_ret), float(trade_cost))
 
-        # simple PnL: signal * day_return minus trades cost when signal changes
-        trade_cost = transaction_cost * abs(signal - prev_signal)
-        pnl = signal * day_ret - trade_cost
-
-        cash_equity = cash_equity * (1.0 + pnl)
 
         # log step
         step_log = {
