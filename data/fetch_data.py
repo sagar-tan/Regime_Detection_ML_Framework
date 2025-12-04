@@ -9,10 +9,6 @@ RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
 logger = setup_logger("fetch_data", log_file="fetch_data.log")
 
 def download_single_ticker(ticker, start, end):
-    """
-    Downloads and cleans a single ticker.
-    Returns a cleaned DataFrame or None if failed.
-    """
     logger.info(f"Starting download for {ticker} from {start} to {end}")
 
     try:
@@ -25,11 +21,13 @@ def download_single_ticker(ticker, start, end):
         logger.warning(f"No data found for {ticker}. Skipping.")
         return None
 
-    logger.info(f"Downloaded {len(df)} rows for {ticker}")
+    # flatten multiindex if present
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
 
-    # Clean columns
+    # now clean
     try:
-        df = df[['Open', 'High', 'Low', 'Close', 'Volume']].dropna()
+        df = df[['Open','High','Low','Close','Volume']].dropna()
     except KeyError as e:
         logger.error(f"Missing columns for {ticker}: {e}")
         return None
