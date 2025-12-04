@@ -1,0 +1,150 @@
+{
+  "project_name": "RegimeAwareTradingFramework",
+  "project_goal": "Provide a standard and reusable framework to evaluate ML based trading models under market regime shifts using realistic backtesting, multiple adaptation strategies, and multi method regime detection.",
+  "core_difference_from_existing_projects": {
+    "1": "Supports plugging any ML model for trading evaluation instead of hard coded single strategy.",
+    "2": "Multiple adaptation policies for fair head to head comparison: static, regime specific switching, retrain on shift.",
+    "3": "Multiple regime detection methods (HMM and changepoint) treated as replaceable modules.",
+    "4": "Performance evaluation per regime and around regime transitions, not just global metrics.",
+    "5": "Walk forward validation and realistic cost simulation required, not optional.",
+    "6": "Fully modular code structure that others can extend without rewriting."
+  },
+  "inputs": {
+    "data": {
+      "source": "Public price data via APIs like Yahoo Finance",
+      "format": "Daily OHLCV in CSV or DataFrame",
+      "required_fields": ["Date", "Open", "High", "Low", "Close", "Volume"],
+      "supported_assets": "Any. Example set: SPY, QQQ, IWM, XLF, GLD, TLT or NIFTY50 plus key ETFs."
+    },
+    "model_input": "Feature matrix (X) and target labels y created from market data.",
+    "user_input": {
+      "assets_to_test": ["Asset1", "Asset2", "..."],
+      "transaction_cost_rate": "float example 0.0005",
+      "regime_detection_method": ["HMM", "ChangePoint"],
+      "adaptation_strategy": ["Static", "RegimeSpecific", "RetrainOnShift"],
+      "walk_forward_config": {
+        "train_window_years": 5,
+        "test_window_months": 6,
+        "rolling_update": true
+      }
+    }
+  },
+  "processing_pipeline": {
+    "step1_data_prep": {
+      "task": "Clean data and align by date. Create returns time series.",
+      "output": "Cleaned price dataframe ready for features."
+    },
+    "step2_feature_engineering": {
+      "features": [
+        "Daily returns",
+        "Rolling volatility window 20",
+        "SMA10 SMA20 SMA50",
+        "Optional indicators like RSI 14"
+      ],
+      "output": "DataFrame with features indexed by date"
+    },
+    "step3_regime_detection": {
+      "module_hmm": {
+        "library": "hmmlearn",
+        "states": 2,
+        "fit_on": "returns or rolling volatility",
+        "output": "hmm_regime_labels array"
+      },
+      "module_changepoint": {
+        "library": "ruptures",
+        "model": "l2",
+        "penalty": "auto tuned",
+        "output": "changepoint_regime_labels array"
+      }
+    },
+    "step4_model_training": {
+      "base_ml_model": "RandomForestClassifier or XGBoost",
+      "target": "Next day price direction up or down",
+      "strategies": {
+        "static": {
+          "train": "Single model trained on all training data",
+          "update": "None"
+        },
+        "regime_specific": {
+          "train": "Separate model per regime label",
+          "update": "Model switches based on detected regime"
+        },
+        "retrain_on_shift": {
+          "train": "Latest N days sliding window",
+          "update": "Triggered when regime label changes"
+        }
+      }
+    },
+    "step5_backtest": {
+      "engine": "Walk forward backtesting with rolling training",
+      "rules": {
+        "signal": "Predicted label long or flat or short",
+        "position_sizing": "Fixed 1 unit",
+        "costs": "Apply transaction cost each trade",
+        "slippage": "Optional additive cost"
+      },
+      "output": "Daily PnL, equity curve, trade history"
+    },
+    "step6_evaluation": {
+      "metrics": [
+        "Annualized Return",
+        "Annualized Volatility",
+        "Sharpe Ratio",
+        "Sortino Ratio",
+        "Max Drawdown",
+        "CVaR",
+        "Turnover",
+        "Net return after cost"
+      ],
+      "regime_specific_evaluation": {
+        "per_regime_stats": true,
+        "regime_transition_stress_test": {
+          "window": "20 days before and after shift",
+          "metrics": "Drawdowns and CVaR near shifts"
+        },
+        "sensitivity_analysis": "Compare results for HMM vs ChangePoint regimes"
+      }
+    }
+  },
+  "outputs": {
+    "output_equity_curves": "Graph of cumulative PnL per strategy",
+    "output_trade_logs": "CSV with signals and executed trades",
+    "output_regime_plots": "Timeline of detected regimes over price chart",
+    "output_performance_tables": "Full metrics for strategies by regime and transitions",
+    "output_statistical_tests": "Bootstrap or DM test optional",
+    "export_formats": ["PDF report", "CSV results", "PNG plots", "Python notebook"]
+  },
+  "folder_structure": {
+    "data": "Raw price data and processed features",
+    "regimes": {
+      "hmm_detector.py": "Fit HMM and generate regimes",
+      "changepoint_detector.py": "Detect breakpoints and label regimes"
+    },
+    "models": {
+      "base_model.py": "Unified interface for prediction functions",
+      "random_forest.py": "Basic tree model",
+      "xgboost_model.py": "Optional boosted model"
+    },
+    "strategies": {
+      "static.py": "Implements static ML strategy",
+      "regime_specific.py": "Strategy per regime",
+      "retrain_on_shift.py": "Re train model on detection event"
+    },
+    "backtest": {
+      "walk_forward.py": "Rolling validation engine",
+      "transaction_costs.py": "Cost and slippage application"
+    },
+    "analysis": {
+      "performance_metrics.py": "Compute Sharpe etc",
+      "plot_equity.py": "Plot performance",
+      "regime_stress_test.py": "Analyze transition windows"
+    },
+    "results": "Generated tables and plots",
+    "docs": "Documentation for usage and framework overview"
+  },
+  "modularity_design": {
+    "plug_and_play_models": "Any model with predict() can be inserted",
+    "replaceable_regime_detectors": "Easily swap or add detectors",
+    "multiple_strategies_supported": "Compare adaptation methods under identical conditions"
+  }
+}
