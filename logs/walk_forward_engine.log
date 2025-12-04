@@ -160,3 +160,101 @@
 2025-12-04 22:07:16 | INFO | walk_forward_engine | Saved equity curve to results\equity_curve_SPY.csv
 2025-12-04 22:07:16 | INFO | walk_forward_engine | Saved backtest log to results\backtest_log_SPY.json
 2025-12-04 22:07:16 | INFO | walk_forward_engine | ===== WALK-FORWARD BACKTEST ENGINE FINISHED =====
+2025-12-04 22:14:29 | INFO | walk_forward_engine | ===== WALK-FORWARD BACKTEST ENGINE STARTED =====
+2025-12-04 22:14:29 | INFO | walk_forward_engine | Loaded features: (3725, 62)
+2025-12-04 22:14:29 | INFO | walk_forward_engine | Detected 9 feature columns for SPY
+2025-12-04 22:14:29 | INFO | walk_forward_engine | Starting walk-forward. total samples: 3725
+2025-12-04 22:18:09 | INFO | walk_forward_engine | ===== WALK-FORWARD BACKTEST ENGINE STARTED =====
+2025-12-04 22:18:09 | INFO | walk_forward_engine | Loaded features: (3725, 62)
+2025-12-04 22:18:09 | INFO | walk_forward_engine | Detected 9 feature columns for SPY
+2025-12-04 22:18:09 | INFO | walk_forward_engine | Starting walk-forward. total samples: 3725
+2025-12-04 22:18:09 | INFO | walk_forward_engine | Trained new global model at idx 749, retrain forced=False, regime_changed=False
+2025-12-04 22:18:09 | INFO | walk_forward_engine | Trained new global model at idx 1149, retrain forced=True, regime_changed=True
+2025-12-04 22:18:09 | INFO | walk_forward_engine | Trained new global model at idx 1154, retrain forced=True, regime_changed=True
+2025-12-04 22:18:09 | INFO | walk_forward_engine | Trained new global model at idx 1194, retrain forced=True, regime_changed=True
+2025-12-04 22:18:09 | INFO | walk_forward_engine | Trained new global model at idx 1201, retrain forced=True, regime_changed=True
+2025-12-04 22:18:10 | INFO | walk_forward_engine | Trained new global model at idx 1368, retrain forced=True, regime_changed=True
+2025-12-04 22:18:10 | INFO | walk_forward_engine | Trained new global model at idx 1400, retrain forced=True, regime_changed=True
+2025-12-04 22:18:10 | INFO | walk_forward_engine | Trained new global model at idx 1440, retrain forced=True, regime_changed=True
+2025-12-04 22:18:10 | INFO | walk_forward_engine | Trained new global model at idx 1501, retrain forced=True, regime_changed=True
+2025-12-04 22:18:10 | INFO | walk_forward_engine | Trained new global model at idx 1580, retrain forced=True, regime_changed=True
+2025-12-04 22:18:10 | INFO | walk_forward_engine | Trained new global model at idx 1586, retrain forced=True, regime_changed=True
+2025-12-04 22:18:10 | INFO | walk_forward_engine | Trained new global model at idx 1595, retrain forced=True, regime_changed=True
+2025-12-04 22:18:11 | INFO | walk_forward_engine | Trained new global model at idx 1970, retrain forced=True, regime_changed=True
+2025-12-04 22:18:11 | INFO | walk_forward_engine | Trained new global model at idx 1986, retrain forced=True, regime_changed=True
+2025-12-04 22:18:11 | INFO | walk_forward_engine | Trained new global model at idx 1993, retrain forced=True, regime_changed=True
+2025-12-04 22:18:11 | INFO | walk_forward_engine | Trained new global model at idx 2019, retrain forced=True, regime_changed=True
+2025-12-04 22:18:11 | INFO | walk_forward_engine | Trained new global model at idx 2030, retrain forced=True, regime_changed=True
+2025-12-04 22:18:11 | INFO | walk_forward_engine | Trained new global model at idx 2159, retrain forced=True, regime_changed=True
+2025-12-04 22:18:11 | INFO | walk_forward_engine | Trained new global model at idx 2218, retrain forced=True, regime_changed=True
+2025-12-04 22:18:11 | INFO | walk_forward_engine | Trained new global model at idx 2363, retrain forced=True, regime_changed=True
+2025-12-04 22:18:11 | INFO | walk_forward_engine | Trained new global model at idx 2378, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2501, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2592, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2636, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2682, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2736, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2741, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2756, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2763, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2945, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2947, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2965, retrain forced=True, regime_changed=True
+2025-12-04 22:18:12 | INFO | walk_forward_engine | Trained new global model at idx 2980, retrain forced=True, regime_changed=True
+2025-12-04 22:18:13 | INFO | walk_forward_engine | Trained new global model at idx 3227, retrain forced=True, regime_changed=True
+2025-12-04 22:18:13 | INFO | walk_forward_engine | Trained new global model at idx 3280, retrain forced=True, regime_changed=True
+2025-12-04 22:18:13 | INFO | walk_forward_engine | Trained new global model at idx 3613, retrain forced=True, regime_changed=True
+2025-12-04 22:18:13 | INFO | walk_forward_engine | Trained new global model at idx 3625, retrain forced=True, regime_changed=True
+2025-12-04 22:18:14 | INFO | walk_forward_engine | Trained new global model at idx 3716, retrain forced=True, regime_changed=True
+2025-12-04 22:18:14 | INFO | walk_forward_engine | Saved trades to results\trades_SPY.csv
+2025-12-04 22:18:14 | INFO | walk_forward_engine | Saved signals to results\signals_SPY.csv
+2025-12-04 22:18:14 | INFO | walk_forward_engine | Saved equity curve to results\equity_curve_SPY.csv
+2025-12-04 22:18:14 | INFO | walk_forward_engine | Saved backtest log to results\backtest_log_SPY.json
+2025-12-04 22:18:14 | INFO | walk_forward_engine | ===== WALK-FORWARD BACKTEST ENGINE FINISHED =====
+2025-12-04 22:18:26 | INFO | walk_forward_engine | ===== WALK-FORWARD BACKTEST ENGINE STARTED =====
+2025-12-04 22:18:26 | INFO | walk_forward_engine | Loaded features: (3725, 62)
+2025-12-04 22:18:26 | INFO | walk_forward_engine | Detected 9 feature columns for SPY
+2025-12-04 22:18:26 | INFO | walk_forward_engine | Starting walk-forward. total samples: 3725
+2025-12-04 22:18:27 | INFO | walk_forward_engine | Trained new global model at idx 749, retrain forced=False, regime_changed=False
+2025-12-04 22:18:27 | INFO | walk_forward_engine | Trained new global model at idx 1149, retrain forced=True, regime_changed=True
+2025-12-04 22:18:27 | INFO | walk_forward_engine | Trained new global model at idx 1154, retrain forced=True, regime_changed=True
+2025-12-04 22:18:27 | INFO | walk_forward_engine | Trained new global model at idx 1194, retrain forced=True, regime_changed=True
+2025-12-04 22:18:27 | INFO | walk_forward_engine | Trained new global model at idx 1201, retrain forced=True, regime_changed=True
+2025-12-04 22:18:27 | INFO | walk_forward_engine | Trained new global model at idx 1368, retrain forced=True, regime_changed=True
+2025-12-04 22:18:28 | INFO | walk_forward_engine | Trained new global model at idx 1400, retrain forced=True, regime_changed=True
+2025-12-04 22:18:28 | INFO | walk_forward_engine | Trained new global model at idx 1440, retrain forced=True, regime_changed=True
+2025-12-04 22:18:28 | INFO | walk_forward_engine | Trained new global model at idx 1501, retrain forced=True, regime_changed=True
+2025-12-04 22:18:28 | INFO | walk_forward_engine | Trained new global model at idx 1580, retrain forced=True, regime_changed=True
+2025-12-04 22:18:28 | INFO | walk_forward_engine | Trained new global model at idx 1586, retrain forced=True, regime_changed=True
+2025-12-04 22:18:28 | INFO | walk_forward_engine | Trained new global model at idx 1595, retrain forced=True, regime_changed=True
+2025-12-04 22:18:28 | INFO | walk_forward_engine | Trained new global model at idx 1970, retrain forced=True, regime_changed=True
+2025-12-04 22:18:28 | INFO | walk_forward_engine | Trained new global model at idx 1986, retrain forced=True, regime_changed=True
+2025-12-04 22:18:28 | INFO | walk_forward_engine | Trained new global model at idx 1993, retrain forced=True, regime_changed=True
+2025-12-04 22:18:29 | INFO | walk_forward_engine | Trained new global model at idx 2019, retrain forced=True, regime_changed=True
+2025-12-04 22:18:29 | INFO | walk_forward_engine | Trained new global model at idx 2030, retrain forced=True, regime_changed=True
+2025-12-04 22:18:29 | INFO | walk_forward_engine | Trained new global model at idx 2159, retrain forced=True, regime_changed=True
+2025-12-04 22:18:29 | INFO | walk_forward_engine | Trained new global model at idx 2218, retrain forced=True, regime_changed=True
+2025-12-04 22:18:29 | INFO | walk_forward_engine | Trained new global model at idx 2363, retrain forced=True, regime_changed=True
+2025-12-04 22:18:29 | INFO | walk_forward_engine | Trained new global model at idx 2378, retrain forced=True, regime_changed=True
+2025-12-04 22:18:29 | INFO | walk_forward_engine | Trained new global model at idx 2501, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2592, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2636, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2682, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2736, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2741, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2756, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2763, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2945, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2947, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2965, retrain forced=True, regime_changed=True
+2025-12-04 22:18:30 | INFO | walk_forward_engine | Trained new global model at idx 2980, retrain forced=True, regime_changed=True
+2025-12-04 22:18:31 | INFO | walk_forward_engine | Trained new global model at idx 3227, retrain forced=True, regime_changed=True
+2025-12-04 22:18:31 | INFO | walk_forward_engine | Trained new global model at idx 3280, retrain forced=True, regime_changed=True
+2025-12-04 22:18:31 | INFO | walk_forward_engine | Trained new global model at idx 3613, retrain forced=True, regime_changed=True
+2025-12-04 22:18:31 | INFO | walk_forward_engine | Trained new global model at idx 3625, retrain forced=True, regime_changed=True
+2025-12-04 22:18:31 | INFO | walk_forward_engine | Trained new global model at idx 3716, retrain forced=True, regime_changed=True
+2025-12-04 22:18:32 | INFO | walk_forward_engine | Saved trades to results\trades_SPY.csv
+2025-12-04 22:18:32 | INFO | walk_forward_engine | Saved signals to results\signals_SPY.csv
+2025-12-04 22:18:32 | INFO | walk_forward_engine | Saved equity curve to results\equity_curve_SPY.csv
+2025-12-04 22:18:32 | INFO | walk_forward_engine | Saved backtest log to results\backtest_log_SPY.json
+2025-12-04 22:18:32 | INFO | walk_forward_engine | ===== WALK-FORWARD BACKTEST ENGINE FINISHED =====

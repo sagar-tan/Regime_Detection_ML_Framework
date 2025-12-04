@@ -154,8 +154,6 @@ def walk_forward_backtest(
     model = None
     regime_models = {}  # for regime_specific: map signature -> model
 
-    # Starting position and equity
-    cash_equity = 1.0
     prev_signal = 0
 
     tc = TransactionCosts(base_cost_rate=TRANSACTION_COST, slippage_per_trade=0.0000)
@@ -257,6 +255,7 @@ def walk_forward_backtest(
         # use transaction costs module
         trade_cost = tc.compute_trade_cost(prev_signal, signal, notional=portfolio.cash_equity)
         pnl, new_equity = portfolio.step(df.index[next_ret_idx], int(signal), float(day_ret), float(trade_cost))
+        prev_signal = portfolio.prev_signal
 
 
         # log step
@@ -272,7 +271,7 @@ def walk_forward_backtest(
             "day_return": float(day_ret),
             "trade_cost": float(trade_cost),
             "pnl": float(pnl),
-            "equity": float(cash_equity),
+            "equity": float(portfolio.cash_equity),
             "model_used": model.get_name() if model is not None else None
         }
         backtest_log["runs"].append(step_log)
@@ -284,10 +283,10 @@ def walk_forward_backtest(
             "DayReturn": float(day_ret),
             "TradeCost": float(trade_cost),
             "PnL": float(pnl),
-            "Equity": float(cash_equity),
+            "Equity": float(portfolio.cash_equity),
             "Regime": cur_sig
         })
-        equity.append({"Date": df.index[next_ret_idx], "Equity": float(cash_equity)})
+        equity.append({"Date": df.index[next_ret_idx], "Equity": float(portfolio.cash_equity)})
 
         prev_signal = signal
         i += STEP_DAYS
@@ -304,6 +303,12 @@ def walk_forward_backtest(
     equity_df.to_csv(equity_out, index=True)
     with open(log_out, "w") as f:
         json.dump(backtest_log, f, indent=2)
+    # Save portfolio trades
+    trades_out = RESULTS_DIR / f"trades_{ticker}.csv"
+    portfolio.save_trades(trades_out)
+
+    logger.info(f"Saved trades to {trades_out}")
+
 
     logger.info(f"Saved signals to {signals_out}")
     logger.info(f"Saved equity curve to {equity_out}")
