@@ -1,0 +1,34 @@
+2025-12-04 16:39:28 | INFO | feature_engineering | ===== Feature Engineering Started =====
+2025-12-04 16:39:28 | INFO | feature_engineering | ===== Loading raw data =====
+2025-12-04 16:39:28 | INFO | feature_engineering | Loading GLD from data\raw\GLD.csv
+2025-12-04 16:39:28 | ERROR | feature_engineering | Failed to read data\raw\GLD.csv: Missing column provided to 'parse_dates': 'Date'
+2025-12-04 16:39:28 | INFO | feature_engineering | Loading IWM from data\raw\IWM.csv
+2025-12-04 16:39:28 | ERROR | feature_engineering | Failed to read data\raw\IWM.csv: Missing column provided to 'parse_dates': 'Date'
+2025-12-04 16:39:28 | INFO | feature_engineering | Loading QQQ from data\raw\QQQ.csv
+2025-12-04 16:39:28 | ERROR | feature_engineering | Failed to read data\raw\QQQ.csv: Missing column provided to 'parse_dates': 'Date'
+2025-12-04 16:39:28 | INFO | feature_engineering | Loading SPY from data\raw\SPY.csv
+2025-12-04 16:39:28 | ERROR | feature_engineering | Failed to read data\raw\SPY.csv: Missing column provided to 'parse_dates': 'Date'
+2025-12-04 16:39:28 | INFO | feature_engineering | Loading TLT from data\raw\TLT.csv
+2025-12-04 16:39:28 | ERROR | feature_engineering | Failed to read data\raw\TLT.csv: Missing column provided to 'parse_dates': 'Date'
+2025-12-04 16:39:28 | INFO | feature_engineering | Loading XLF from data\raw\XLF.csv
+2025-12-04 16:39:28 | ERROR | feature_engineering | Failed to read data\raw\XLF.csv: Missing column provided to 'parse_dates': 'Date'
+2025-12-04 16:39:28 | ERROR | feature_engineering | No valid raw CSVs loaded. Stopping.
+2025-12-04 16:43:05 | INFO | feature_engineering | ===== Feature Engineering Started =====
+2025-12-04 16:43:05 | INFO | feature_engineering | ===== Loading raw data =====
+2025-12-04 16:43:05 | INFO | feature_engineering | Loading GLD from data\raw\GLD.csv
+2025-12-04 16:43:05 | INFO | feature_engineering | Loading IWM from data\raw\IWM.csv
+2025-12-04 16:43:05 | INFO | feature_engineering | Loading QQQ from data\raw\QQQ.csv
+2025-12-04 16:43:05 | INFO | feature_engineering | Loading SPY from data\raw\SPY.csv
+2025-12-04 16:43:05 | INFO | feature_engineering | Loading TLT from data\raw\TLT.csv
+2025-12-04 16:43:05 | INFO | feature_engineering | Loading XLF from data\raw\XLF.csv
+2025-12-04 16:43:05 | INFO | feature_engineering | Merged dataframe shape: (3774, 30)
+2025-12-04 16:43:05 | INFO | feature_engineering | ===== Computing features =====
+2025-12-04 16:43:05 | INFO | feature_engineering | Computing features for GLD
+2025-12-04 16:43:05 | INFO | feature_engineering | Computing features for IWM
+2025-12-04 16:43:05 | INFO | feature_engineering | Computing features for QQQ
+2025-12-04 16:43:05 | INFO | feature_engineering | Computing features for SPY
+2025-12-04 16:43:05 | INFO | feature_engineering | Computing features for TLT
+2025-12-04 16:43:05 | INFO | feature_engineering | Computing features for XLF
+2025-12-04 16:43:05 | INFO | feature_engineering | Final feature dataframe shape: (3725, 60)
+2025-12-04 16:43:06 | INFO | feature_engineering | Processed features saved to data\processed\features_merged.csv
+2025-12-04 16:43:06 | INFO | feature_engineering | ===== Feature Engineering Completed Successfully =====

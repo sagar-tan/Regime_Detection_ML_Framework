@@ -76,3 +76,33 @@ def attach_regime_labels(df, ticker, regimes):
     """
     Append regime labels to dataframe for the chosen ticker.
     """
+    df_out = df.copy()
+    df_out[(ticker, "HMM_Regime")] = regimes
+    logger.info(f"Attached HMM regimes to dataframe for {ticker}.")
+    return df_out
+
+
+def save_regime_file(df, ticker):
+    """
+    Save dataframe with regimes added.
+    """
+    output_path = Path(f"data/processed/features_with_hmm_{ticker}.csv")
+    df.to_csv(output_path)
+    logger.info(f"Saved HMM regime file to: {output_path}")
+
+
+if __name__ == "__main__":
+    logger.info("===== HMM Regime Detection Started =====")
+
+    df = load_features()
+    TICKER = "SPY"   # default primary asset for regime detection
+    SERIES_COLUMN = "Return"
+
+    series = extract_series_for_regime(df, TICKER, SERIES_COLUMN)
+    model = fit_hmm(series, n_states=2)
+    regimes = infer_regimes(model, series)
+
+    df_with_regimes = attach_regime_labels(df, TICKER, regimes)
+    save_regime_file(df_with_regimes, TICKER)
+
+    logger.info("===== HMM Regime Detection Completed Successfully =====")
