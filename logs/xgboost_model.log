@@ -1,3 +1,27 @@
 2025-12-04 21:03:19 | INFO | xgboost_model | Initialized XGBoostTradingModel (n_estimators=50, max_depth=3, lr=0.1)
 2025-12-04 21:03:19 | INFO | xgboost_model | Fitting XGBoost on 2607 samples and 9 features
 2025-12-04 21:03:19 | INFO | xgboost_model | XGBoost fit complete
+2025-12-04 21:20:25 | INFO | xgboost_model | Initialized XGBoostTradingModel (n_estimators=200, max_depth=4, lr=0.1)
+2025-12-04 21:20:25 | INFO | xgboost_model | Fitting XGBoost on 750 samples and 9 features
+2025-12-04 21:20:25 | INFO | xgboost_model | XGBoost fit complete
+2025-12-04 21:20:26 | INFO | xgboost_model | Initialized XGBoostTradingModel (n_estimators=200, max_depth=4, lr=0.1)
+2025-12-04 21:20:26 | INFO | xgboost_model | Fitting XGBoost on 750 samples and 9 features
+2025-12-04 21:20:26 | INFO | xgboost_model | XGBoost fit complete
+2025-12-04 21:20:27 | INFO | xgboost_model | Initialized XGBoostTradingModel (n_estimators=200, max_depth=4, lr=0.1)
+2025-12-04 21:20:27 | INFO | xgboost_model | Fitting XGBoost on 750 samples and 9 features
+2025-12-04 21:20:27 | INFO | xgboost_model | XGBoost fit complete
+2025-12-04 21:20:27 | INFO | xgboost_model | Initialized XGBoostTradingModel (n_estimators=200, max_depth=4, lr=0.1)
+2025-12-04 21:20:27 | INFO | xgboost_model | Fitting XGBoost on 750 samples and 9 features
+2025-12-04 21:20:28 | INFO | xgboost_model | XGBoost fit complete
+2025-12-04 21:27:25 | INFO | xgboost_model | Initialized XGBoostTradingModel (n_estimators=200, max_depth=4, lr=0.1)
+2025-12-04 21:27:25 | INFO | xgboost_model | Fitting XGBoost on 750 samples and 9 features
+2025-12-04 21:27:26 | INFO | xgboost_model | XGBoost fit complete
+2025-12-04 21:27:26 | INFO | xgboost_model | Initialized XGBoostTradingModel (n_estimators=200, max_depth=4, lr=0.1)
+2025-12-04 21:27:26 | INFO | xgboost_model | Fitting XGBoost on 750 samples and 9 features
+2025-12-04 21:27:26 | INFO | xgboost_model | XGBoost fit complete
+2025-12-04 21:27:27 | INFO | xgboost_model | Initialized XGBoostTradingModel (n_estimators=200, max_depth=4, lr=0.1)
+2025-12-04 21:27:27 | INFO | xgboost_model | Fitting XGBoost on 750 samples and 9 features
+2025-12-04 21:27:27 | INFO | xgboost_model | XGBoost fit complete
+2025-12-04 21:27:28 | INFO | xgboost_model | Initialized XGBoostTradingModel (n_estimators=200, max_depth=4, lr=0.1)
+2025-12-04 21:27:28 | INFO | xgboost_model | Fitting XGBoost on 750 samples and 9 features
+2025-12-04 21:27:28 | INFO | xgboost_model | XGBoost fit complete

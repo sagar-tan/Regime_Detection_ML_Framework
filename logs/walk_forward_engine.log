@@ -1,0 +1,24 @@
+2025-12-04 21:20:25 | INFO | walk_forward_engine | ===== WALK-FORWARD BACKTEST ENGINE STARTED =====
+2025-12-04 21:20:25 | INFO | walk_forward_engine | Loaded features: (3725, 60)
+2025-12-04 21:20:25 | INFO | walk_forward_engine | Detected 9 feature columns for SPY
+2025-12-04 21:20:25 | INFO | walk_forward_engine | Starting walk-forward. total samples: 3725
+2025-12-04 21:20:25 | INFO | walk_forward_engine | Trained new global model at idx 749, retrain forced=False, regime_changed=False
+2025-12-04 21:20:26 | INFO | walk_forward_engine | Trained new global model at idx 1499, retrain forced=True, regime_changed=False
+2025-12-04 21:20:27 | INFO | walk_forward_engine | Trained new global model at idx 2249, retrain forced=True, regime_changed=False
+2025-12-04 21:20:28 | INFO | walk_forward_engine | Trained new global model at idx 2999, retrain forced=True, regime_changed=False
+2025-12-04 21:20:28 | INFO | walk_forward_engine | Saved signals to results\signals_SPY.csv
+2025-12-04 21:20:28 | INFO | walk_forward_engine | Saved equity curve to results\equity_curve_SPY.csv
+2025-12-04 21:20:28 | INFO | walk_forward_engine | Saved backtest log to results\backtest_log_SPY.json
+2025-12-04 21:20:28 | INFO | walk_forward_engine | ===== WALK-FORWARD BACKTEST ENGINE FINISHED =====
+2025-12-04 21:27:25 | INFO | walk_forward_engine | ===== WALK-FORWARD BACKTEST ENGINE STARTED =====
+2025-12-04 21:27:25 | INFO | walk_forward_engine | Loaded features: (3725, 60)
+2025-12-04 21:27:25 | INFO | walk_forward_engine | Detected 9 feature columns for SPY
+2025-12-04 21:27:25 | INFO | walk_forward_engine | Starting walk-forward. total samples: 3725
+2025-12-04 21:27:26 | INFO | walk_forward_engine | Trained new global model at idx 749, retrain forced=False, regime_changed=False
+2025-12-04 21:27:26 | INFO | walk_forward_engine | Trained new global model at idx 1499, retrain forced=True, regime_changed=False
+2025-12-04 21:27:27 | INFO | walk_forward_engine | Trained new global model at idx 2249, retrain forced=True, regime_changed=False
+2025-12-04 21:27:28 | INFO | walk_forward_engine | Trained new global model at idx 2999, retrain forced=True, regime_changed=False
+2025-12-04 21:27:29 | INFO | walk_forward_engine | Saved signals to results\signals_SPY.csv
+2025-12-04 21:27:29 | INFO | walk_forward_engine | Saved equity curve to results\equity_curve_SPY.csv
+2025-12-04 21:27:29 | INFO | walk_forward_engine | Saved backtest log to results\backtest_log_SPY.json
+2025-12-04 21:27:29 | INFO | walk_forward_engine | ===== WALK-FORWARD BACKTEST ENGINE FINISHED =====

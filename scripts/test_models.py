@@ -9,7 +9,7 @@ from models.xgboost_model import XGBoostTradingModel
 logger = setup_logger("test_models", log_file="test_models.log")
 
 
-def load_sample_features(path="data/processed/features_merged.csv", ticker="SPY"):
+def load_sample_features(path="data/processed/features_with.csv", ticker="SPY"):
     logger.info(f"Loading features for testing from {path}")
 
     p = Path(path)

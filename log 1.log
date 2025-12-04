@@ -1,0 +1,1009 @@
+RegimeAwareTradingFramework – Project Log 1
+==========================================
+
+This log documents the current state of the RDMA_ML_Framework / RegimeAwareTradingFramework codebase as of this snapshot.  
+It is written so that a third‑party developer can understand the architecture, each module’s role, the key variables and functions, and what work remains to be done.
+
+------------------------------------------------------------------------------
+1. High‑Level Overview
+------------------------------------------------------------------------------
+
+Goal (from `Details.json`):
+- Provide a standard, reusable framework to evaluate **ML‑based trading models** under **market regime shifts** using:
+  - Multiple regime detection methods (HMM and changepoint) as pluggable modules.
+  - Multiple adaptation / trading strategies (static, regime‑specific, retrain on shift / hybrid).
+  - Walk‑forward backtesting with realistic transaction costs.
+  - Regime‑aware performance analysis (per‑regime, and around regime transitions).
+
+Core pipeline:
+1. **Data fetch (`data/fetch_data.py`)**
+   - Download raw OHLCV data via Yahoo Finance for a list of tickers.
+   - Save each ticker as a CSV in `data/raw/`.
+2. **Feature engineering (`features/feature_engineering.py`)**
+   - Load all raw CSVs, align by date, and merge into a MultiIndex `DataFrame`.
+   - Compute per‑ticker features: returns, volatility, simple moving averages.
+   - Create per‑ticker binary targets (up / down).
+   - Save flat wide CSV `data/processed/features_merged.csv`.
+3. **Regime detection**
+   - **Changepoint (`regimes/changepoint_detector.py`)**:
+     - Use `ruptures` PELT algorithm on a specified return series to detect structural breaks.
+     - Convert breakpoints to integer regime labels and save `features_with_cp_<TICKER>.csv`.
+   - **HMM (`regimes/hmm_detector.py`)**:
+     - Use `hmmlearn.GaussianHMM` on returns to infer hidden states as regimes.
+     - Attach HMM regime labels and save `features_with_hmm_<TICKER>.csv`.
+4. **Models (`models/*.py`)**
+   - Unified interface `BaseTradingModel` with `fit`, `predict`, `get_name`.
+   - Concrete implementations:
+     - `RandomForestTradingModel` (sklearn RandomForestClassifier).
+     - `XGBoostTradingModel` (xgboost XGBClassifier).
+5. **Walk‑forward backtest engine (`backtest/walk_forward_engine.py`)**
+   - Load feature file.
+   - Choose model type (RF / XGB) and strategy mode (static / regime_specific / hybrid).
+   - Iterate over time using a rolling training window and horizon.
+   - Retrain models based on window length and/or detected regime change.
+   - Apply transaction cost and produce:
+     - Signals CSV (`results/signals_<TICKER>.csv`).
+     - Equity curve CSV (`results/equity_curve_<TICKER>.csv`).
+     - Detailed JSON backtest log (`results/backtest_log_<TICKER>.json`).
+6. **Model testing script (`scripts/test_models.py`)**
+   - Quick train / test split and accuracy evaluation for RF and XGBoost on feature dataset (no walk‑forward).
+7. **Analysis / plotting / additional strategies**
+   - Several analysis and strategy files exist but are currently auto‑generated stubs with “Implement logic here” comments.
+   - These need to be implemented to realize the full design from `Details.json`.
+
+Logging:
+- Central logging is handled via `utils/logger.py`, writing formatted logs to `logs/*.log` and echoing to console.
+- Existing logs in `logs/` show that fetch, feature engineering, regimes, walk‑forward engine and models have been run and tested at least once.
+
+------------------------------------------------------------------------------
+2. Module‑by‑Module Documentation
+------------------------------------------------------------------------------
+
+Below is a file‑level breakdown with functions, variables, and their purposes, and the current implementation status.
+
+--------------------------------------
+2.1 `utils/logger.py`
+--------------------------------------
+
+Purpose:
+- Provide a project‑wide standardized logger setup that writes to both file and console.
+
+Key function:
+- `setup_logger(name: str, log_file: str = "project.log", level=logging.INFO)`
+  - **Inputs:**
+    - `name`: logger name (typically module name).
+    - `log_file`: filename under `logs/` in which to store messages.
+    - `level`: logging level (e.g., `logging.INFO`).
+  - **Behavior / variables:**
+    - `log_dir`: `Path("logs")`; directory for log files. Created if missing.
+    - `log_path`: `log_dir / log_file`; full path to the log file.
+    - `formatter`: `logging.Formatter` configured for:
+      - `'%(asctime)s | %(levelname)s | %(name)s | %(message)s'`
+    - `file_handler`: `logging.FileHandler` writing to `log_path` in append mode.
+    - `console_handler`: `logging.StreamHandler` for printing to stdout.
+    - `logger`: `logging.getLogger(name)` with:
+      - Level set to `level`.
+      - Both handlers attached.
+      - `logger.propagate = False` to avoid propagating messages to root logger.
+  - **Output:**
+    - Returns the configured `logger` instance.
+
+Status:
+- Fully implemented and used by all functional modules.
+- Potential improvement (optional): guard against adding duplicate handlers if `setup_logger` is called multiple times with same name (currently adds handlers each call).
+
+--------------------------------------
+2.2 `data/fetch_data.py`
+--------------------------------------
+
+Purpose:
+- Download raw daily OHLCV data for multiple tickers from Yahoo Finance and store as CSVs in `data/raw/`.
+
+Module‑level variables:
+- `RAW_DATA_DIR`: `Path("data/raw")`; created with `mkdir(parents=True, exist_ok=True)`.
+- `logger`: logger instance returned by `setup_logger("fetch_data", log_file="fetch_data.log")`.
+
+Functions:
+- `download_single_ticker(ticker, start, end)`
+  - Logs the ticker and date range.
+  - Uses `yf.download(ticker, start=start, end=end)` to fetch a DataFrame.
+  - Handles exceptions and log errors on download failure.
+  - If the returned `df` is empty: logs a warning and returns `None`.
+  - If columns are a `MultiIndex` (common with some `yfinance` configs), flattens them by taking level 0.
+  - Attempts to select the standard columns: `['Open','High','Low','Close','Volume']`.
+    - On `KeyError`, logs an error and returns `None`.
+  - Drops rows with missing values.
+  - Logs final row count and returns the cleaned DataFrame.
+
+- `save_ticker_data(ticker, df)`
+  - `filepath = RAW_DATA_DIR / f"{ticker}.csv"`.
+  - Saves the DataFrame to CSV with default index (Date as index).
+  - Logs the save path.
+
+- `download_data(tickers, start, end)`
+  - Logs script start with tickers and date range.
+  - Iterates over `tickers`:
+    - Calls `download_single_ticker`.
+    - If DataFrame is not `None` -> calls `save_ticker_data`.
+    - Otherwise logs that save was skipped.
+  - Logs script completion.
+
+CLI section:
+- If run as `__main__`:
+  - `TICKERS = ["SPY", "QQQ", "IWM", "XLF", "GLD", "TLT"]`.
+  - `START = "2010-01-01"`, `END = "2025-01-01"`.
+  - Calls `download_data(TICKERS, START, END)`.
+
+Status:
+- Fully implemented and functional as an initial historical data fetcher.
+- Remaining / potential improvements:
+  - Parameterize dates and tickers via CLI arguments or config file.
+  - Optionally handle timezone or adjusted close columns.
+
+--------------------------------------
+2.3 `features/feature_engineering.py`
+--------------------------------------
+
+Purpose:
+- Load raw CSVs for multiple tickers.
+- Align on dates and merge into a unified MultiIndex `DataFrame` (columns: `(ticker, field)`).
+- Compute per‑ticker features:
+  - Daily returns.
+  - Rolling volatility.
+  - Simple moving averages (10 and 50 days).
+  - Binary classification target (up / down).
+- Save a flattened feature dataset.
+
+Module‑level variables:
+- `RAW_DIR`: `Path("data/raw")`.
+- `PROCESSED_DIR`: `Path("data/processed")`; created with `mkdir(parents=True, exist_ok=True)`.
+- `logger`: `setup_logger("feature_engineering", log_file="feature_engineering.log")`.
+
+Functions:
+- `load_and_merge_data()`
+  - Logs “Loading raw data”.
+  - `files = list(RAW_DIR.glob("*.csv"))`:
+    - On empty list: logs error and raises `FileNotFoundError` instructing to run `fetch_data.py`.
+  - For each `file`:
+    - `ticker = file.stem` (filename without `.csv` becomes ticker symbol).
+    - Logs file being loaded.
+    - Reads CSV via `pd.read_csv(file, parse_dates=["Date"], index_col="Date")`.
+    - On any exception: logs error and continues to next file.
+    - If resulting DataFrame is empty: logs warning and skips.
+    - Converts columns to MultiIndex: `df.columns = MultiIndex.from_product([[ticker], df.columns])`.
+    - Appends to `dataframes`.
+  - After loop:
+    - If `dataframes` is empty: logs error and raises `ValueError`.
+    - `merged_df = pd.concat(dataframes, axis=1).sort_index()`.
+    - Logs shape and returns `merged_df`.
+
+- `compute_features(merged_df)`
+  - Logs “Computing features”.
+  - Copies `merged_df` to local `df`.
+  - `tickers = merged_df.columns.get_level_values(0).unique()`.
+  - For each `ticker`:
+    - Tries to retrieve `close = merged_df[(ticker, "Close")]`.
+      - If `KeyError`: logs warning and skips this ticker.
+    - Logs “Computing features for {ticker}”.
+    - Adds columns:
+      - `(ticker, "Return")`: percent change on `Close`.
+      - `(ticker, "Vol20")`: rolling stdev of daily returns over window 20.
+      - `(ticker, "SMA10")`: 10‑day moving average of close.
+      - `(ticker, "SMA50")`: 50‑day moving average of close.
+      - `(ticker, "Target")`: binary label `(Return > 0).astype(int)`.
+  - Cleans:
+    - Replaces `inf` and `-inf` with `NaN`.
+    - Drops rows with any `NaN` via `dropna()`.
+  - Logs final shape and returns cleansed `df`.
+
+- `save_processed(df)`
+  - Target file: `PROCESSED_DIR / "features_merged.csv"`.
+  - Flattens MultiIndex columns:
+    - `(ticker, column)` becomes `"ticker_column"`.
+  - Resets index so Date becomes a regular column.
+  - Saves CSV without index.
+  - Logs save path.
+
+CLI section:
+- `if __name__ == "__main__"`:
+  - Logs “Feature Engineering Started”.
+  - `merged = load_and_merge_data()`.
+  - `features = compute_features(merged)`.
+  - `save_processed(features)`.
+  - Logs successful completion.
+
+Status:
+- Fully implemented for base features and targets.
+- Remaining / potential enhancements:
+  - Extension of indicator set (RSI, MACD, higher‑order features, cross‑asset spreads) as hinted in `Details.json`.
+  - More robust NaN handling and per‑ticker filtering.
+
+--------------------------------------
+2.4 `regimes/changepoint_detector.py`
+--------------------------------------
+
+Purpose:
+- Detect structural breaks in a univariate time series (currently returns), assign regime labels, and attach them to the feature dataset.
+
+Module‑level variables:
+- `logger`: `setup_logger("changepoint_detector", log_file="changepoint_detector.log")`.
+
+Functions:
+- `load_features(filepath="data/processed/features_merged.csv")`
+  - Logs loading attempt.
+  - Uses `Path(filepath)`; raises `FileNotFoundError` and logs if file missing.
+  - Reads CSV with `parse_dates=["Date"]`, sets Date as index.
+  - Logs shape and returns DataFrame.
+
+- `extract_series_for_cp(df, ticker, column="Return")`
+  - Builds `col_name = f"{ticker}_{column}"`, e.g., `"SPY_Return"`.
+  - If `col_name` not in `df.columns`: raises `KeyError` with a list of available columns.
+  - Extracts 1‑D numpy array: `series = df[col_name].dropna().values`.
+  - Logs length and returns `series`.
+
+- `detect_changepoints(series, model="rbf", penalty=10)`
+  - Logs PELT configuration.
+  - Instantiates `rpt.Pelt(model=model).fit(series)`.
+  - Calls `.predict(pen=penalty)` to obtain breakpoints list.
+  - Logs detected breakpoints and returns them.
+
+- `convert_breaks_to_labels(length, breakpoints)`
+  - Creates `labels = np.zeros(length, dtype=int)`.
+  - Iterates in order through `breakpoints`:
+    - For each breakpoint `bp`, sets `labels[last:bp] = current_label`, then increments label and updates `last = bp`.
+  - Logs number of regimes formed and returns `labels`.
+
+- `attach_cp_labels(df, ticker, labels)`
+  - Copies `df` to `df_out`.
+  - Adds column `f"{ticker}_CP_Regime"` with integer regime labels.
+  - Returns `df_out`.
+
+- `save_cp_file(df, ticker)`
+  - Saves `df.reset_index()` to `data/processed/features_with_cp_<TICKER>.csv`.
+  - Logs save path.
+
+CLI section:
+- `if __name__ == "__main__"`:
+  - Logs start banner.
+  - `df = load_features()`.
+  - `TICKER = "SPY"`, `SERIES_COLUMN = "Return"`.
+  - `series = extract_series_for_cp(df, TICKER, SERIES_COLUMN)`.
+  - `breakpoints = detect_changepoints(series, model="rbf", penalty=10)`.
+  - `labels = convert_breaks_to_labels(len(series), breakpoints)`.
+  - `df_with_cp = attach_cp_labels(df, TICKER, labels)`.
+  - `save_cp_file(df_with_cp, TICKER)`.
+  - Logs “Finished”.
+
+Status:
+- Fully implemented for a single ticker and simple PELT configuration.
+- Remaining / potential improvements:
+  - Parameterization of `model`, `penalty`, and `TICKER` (CLI / config).
+  - Handling of multiple tickers in one run.
+
+--------------------------------------
+2.5 `regimes/hmm_detector.py`
+--------------------------------------
+
+Purpose:
+- Fit a Gaussian Hidden Markov Model (HMM) on a returns series and use it to infer discrete regimes; attach those as labels to the feature dataset.
+
+Module‑level variables:
+- `logger`: `setup_logger("hmm_detector", log_file="hmm_detector.log")`.
+
+Functions:
+- `load_features(filepath="data/processed/features_merged.csv")`
+  - Similar to changepoint loader.
+  - Logs, checks existence, reads CSV with Date index, logs shape.
+
+- `extract_series_for_regime(df, ticker, column="Return")`
+  - `col_name = f"{ticker}_{column}"`.
+  - If missing: raises `KeyError`.
+  - Extracts series as 2‑D array `(-1, 1)` suitable for HMM: `df[col_name].dropna().values.reshape(-1, 1)`.
+  - Logs length and returns `series`.
+
+- `fit_hmm(series, n_states=2, covariance_type="full")`
+  - Logs start.
+  - Constructs `GaussianHMM` with specified components:
+    - `n_components=n_states`, `covariance_type=covariance_type`, `n_iter=200`, `random_state=42`.
+  - Fits model on `series`.
+  - Logs completion and returns fitted model.
+
+- `infer_regimes(model, series)`
+  - Logs.
+  - Calls `model.predict(series)` to get integer regime states.
+  - Logs unique states and returns array.
+
+- `attach_regime_labels(df, ticker, regimes)`
+  - Copies DataFrame.
+  - Adds column `f"{ticker}_HMM_Regime"` with regimes.
+  - Returns new DataFrame.
+
+- `save_regime_file(df, ticker)`
+  - Saves `df.reset_index()` to `data/processed/features_with_hmm_<TICKER>.csv`.
+  - Logs path.
+
+CLI section:
+- `if __name__ == "__main__"`:
+  - Logs start.
+  - Loads features.
+  - Sets `TICKER = "SPY"`, `SERIES_COLUMN = "Return"`.
+  - Extracts series, fits HMM with 2 states, infers regimes.
+  - Attaches labels, saves file.
+  - Logs completion.
+
+Status:
+- Fully implemented for a basic 2‑state HMM for one ticker.
+- Remaining / potential:
+  - Allow variable number of states and dynamic configuration per asset.
+  - Possibly use other inputs (volatility, multi‑dimensional features) as emission vectors.
+
+--------------------------------------
+2.6 `models/base_model.py`
+--------------------------------------
+
+Purpose:
+- Define a minimal interface for any ML trading model used within the framework.  
+  This allows strategies and backtest engines to be model‑agnostic.
+
+Module‑level variables:
+- `logger`: `setup_logger("base_model", log_file="base_model.log")` (only imported but not heavily used yet).
+
+Class:
+- `class BaseTradingModel:`
+  - Methods:
+    - `fit(self, X, y)`
+      - Abstract; raises `NotImplementedError`.  
+      - Expected: train the model on features `X` and labels `y`.
+    - `predict(self, X)`
+      - Abstract; raises `NotImplementedError`.
+      - Docstring: must output 1 (up) or 0 (down).
+    - `get_name(self)`
+      - Returns the class name via `self.__class__.__name__`.
+
+Status:
+- Fully implemented minimal interface; used as base for RF and XGBoost.
+
+--------------------------------------
+2.7 `models/random_forest.py`
+--------------------------------------
+
+Purpose:
+- Provide a RandomForest‑based trading model implementing `BaseTradingModel`.
+
+Module‑level variables:
+- `logger`: `setup_logger("random_forest", log_file="random_forest.log")`.
+
+Class:
+- `class RandomForestTradingModel(BaseTradingModel):`
+  - `__init__(self, n_estimators=200, max_depth=6, random_state=42)`
+    - Instantiates `sklearn.ensemble.RandomForestClassifier` with given hyperparameters.
+    - Stores instance in `self.model`.
+    - Logs initialization, including hyperparams.
+  - `fit(self, X, y)`
+    - Logs dataset size (`X.shape[0]` samples, `X.shape[1]` features).
+    - Calls `self.model.fit(X, y)` inside try / except.
+    - On exception, logs error and re‑raises.
+  - `predict(self, X)`
+    - Docstring: returns binary signals 1 (up) or 0 (down).
+    - Calls `self.model.predict(X)` in try / except.
+    - Casts outputs to `int` and returns them.
+  - `get_name(self)`
+    - Returns hard‑coded `"RandomForestTradingModel"` (even though base class would also work).
+
+Status:
+- Fully implemented and used by `test_models.py` and `walk_forward_engine.py`.
+
+--------------------------------------
+2.8 `models/xgboost_model.py`
+--------------------------------------
+
+Purpose:
+- Provide an XGBoost‑based trading model implementing `BaseTradingModel`.
+
+Module‑level variables:
+- `logger`: `setup_logger("xgboost_model", log_file="xgboost_model.log")`.
+
+Class:
+- `class XGBoostTradingModel(BaseTradingModel):`
+  - `__init__(self, n_estimators=200, max_depth=4, learning_rate=0.1, random_state=42)`
+    - Instantiates `XGBClassifier` with:
+      - `n_estimators`, `max_depth`, `learning_rate`, `use_label_encoder=False`, `eval_metric="logloss"`, `random_state`.
+    - Logs initialization including hyperparameters.
+  - `fit(self, X, y)`
+    - Logs dataset size.
+    - Fits model inside try / except.
+    - Logs “fit complete” on success; logs error and re‑raises on failure.
+  - `predict(self, X)`
+    - Predicts labels; returns them as `int` array.
+    - Logs errors if prediction fails.
+  - `get_name(self)`
+    - Returns `"XGBoostTradingModel"`.
+
+Status:
+- Fully implemented and integrated in walk‑forward engine & tests.
+
+--------------------------------------
+2.9 `backtest/walk_forward_engine.py`
+--------------------------------------
+
+Purpose:
+- Core walk‑forward backtesting engine that:
+  - Loads features.
+  - Chooses and trains an ML model.
+  - Simulates day‑by‑day trading decisions under different strategy modes.
+  - Incorporates regime information (HMM and CP) for re‑training logic and logging.
+  - Outputs signals, equity curve, and a detailed JSON log.
+
+Module‑level configuration variables:
+- `TICKER = "SPY"`
+  - The asset whose `_<Field>` columns are used for features and target.
+- `FEATURE_FILE = Path("data/processed/features_merged.csv")`
+  - Input feature dataset (currently unified; note: regime‑augmented files exist but are not yet wired here).
+- `RESULTS_DIR = Path("results")`
+  - Output directory for results. Created if missing.
+- Walk‑forward parameters:
+  - `WINDOW_DAYS = 750`
+  - `RETRAIN_INTERVAL = WINDOW_DAYS`
+  - `PREDICTION_HORIZON = 1`
+  - `STEP_DAYS = 1`
+- Model and strategy:
+  - `MODEL_TYPE = "xgb"`  (options: `"rf"` or `"xgb"`).
+  - `STRATEGY_MODE = "hybrid"`  (described in comments as:
+    - `"static"`: single model used across all regimes.
+    - `"regime_specific"`: one model per regime value.
+    - `"hybrid"`: sliding window + retrain when regime changes.)
+- Transaction & features:
+  - `TRANSACTION_COST = 0.0005`  (per trade cost as fraction).
+  - `REGIME_COLS = [f"{TICKER}_HMM_Regime", f"{TICKER}_CP_Regime"]`
+    - Column names expected if regime labels are present in the feature DataFrame.
+  - `BLACKLIST = [f"{TICKER}_Target"] + REGIME_COLS`
+    - Columns excluded from feature set (target and regimes).
+- Data sufficiency and reproducibility:
+  - `MIN_TRAIN_SAMPLES = 50`
+  - `RANDOM_STATE = 42`
+
+Helper functions:
+- `load_features(filepath=FEATURE_FILE)`
+  - Checks that the feature file exists; raises if not.
+  - Reads CSV, parses Date, sets index to Date and sorts.
+  - Logs shape and returns DataFrame.
+
+- `get_feature_columns(df, ticker=TICKER)`
+  - Builds feature column list: all columns that start with `"{ticker}_"` and are **not** in `BLACKLIST`.
+  - Logs number of feature columns discovered and returns them.
+
+- `build_model(model_type=MODEL_TYPE)`
+  - If `"rf"`: returns `RandomForestTradingModel` with default hyperparams and `random_state`.
+  - If `"xgb"`: returns `XGBoostTradingModel` similarly.
+  - Else: raises `ValueError("Unknown model_type")`.
+
+- `regime_signature(df_row)`
+  - Computes a **string signature** representing the current regime, based on available regime columns.
+  - For each `col` in `REGIME_COLS`:
+    - If it exists in `df_row.index`: uses `str(int(df_row[col]))`.
+    - Otherwise uses `"NA"`.
+  - Joins the values with `"|"`, e.g. `"0|1"`, `"NA|0"`.
+  - Used to detect regime changes and to index `regime_models` in regime_specific mode.
+
+Core function:
+- `walk_forward_backtest(df, ticker=TICKER, window_days=WINDOW_DAYS, retrain_interval=RETRAIN_INTERVAL, model_type=MODEL_TYPE, strategy_mode=STRATEGY_MODE, horizon=PREDICTION_HORIZON, transaction_cost=TRANSACTION_COST)`
+  - **Inputs:**
+    - `df`: feature DataFrame with at least:
+      - `f"{ticker}_Target"`: binary target.
+      - `f"{ticker}_Return"`: realized return series.
+      - Optionally: `"ticker_HMM_Regime"`, `"ticker_CP_Regime"`.
+    - `window_days`, `retrain_interval`, `model_type`, `strategy_mode`, `horizon`, `transaction_cost` as above.
+  - **Setup:**
+    - `dates = df.index`.
+    - `feature_cols = get_feature_columns(...)`:
+      - Raises if no features.
+    - `target_col = f"{ticker}_Target"`, `ret_col = f"{ticker}_Return"`.
+    - Validates target column existence.
+    - Computes `n = len(df)` and logs total samples.
+  - **Results containers:**
+    - `signals`: list of per‑day dictionaries for signals and PnL.
+    - `equity`: list of per‑day dictionaries for equity curve.
+    - `backtest_log`: dict with:
+      - `"params"`: all major configuration values.
+      - `"runs"`: list of detailed per‑day logs (step_log).
+  - **Index / model state:**
+    - `start_idx = window_days`.
+    - `last_retrain_idx = start_idx - 1`.
+    - `model = None`.
+    - `regime_models = {}` for `regime_specific` mode.
+    - `cash_equity = 1.0` initial equity.
+    - `prev_signal = 0` starting with flat / no position.
+  - **Main loop (walk‑forward):**
+    - Start `i = start_idx`.
+    - While `i + horizon - 1 < n`:
+      - `train_end_idx = i - 1` (we train up to yesterday and predict for today onward).
+      - `train_start_idx = max(0, train_end_idx - window_days + 1)`.
+      - `train_slice = df.iloc[train_start_idx:train_end_idx + 1]`.
+      - If `len(train_slice) < MIN_TRAIN_SAMPLES`:
+        - Log warning and `continue` after incrementing `i` by `STEP_DAYS`.
+      - **Regime change detection:**
+        - `regime_changed = False`.
+        - If `train_end_idx >= 1`:
+          - `prev_row = df.iloc[train_end_idx - 1]`.
+          - `cur_row = df.iloc[train_end_idx]`.
+          - Compare `regime_signature(prev_row)` versus `regime_signature(cur_row)`.
+          - If different: `regime_changed = True`.
+      - `force_retrain = regime_changed or ((train_end_idx - last_retrain_idx) >= retrain_interval)`.
+      - `cur_sig = regime_signature(df.iloc[train_end_idx])`.
+      - `retrained = False` (flag to log).
+      - **Model training logic:**
+        - If `strategy_mode == "regime_specific"`:
+          - For current `cur_sig`:
+            - If `cur_sig` not in `regime_models` OR `force_retrain` is True:
+              - Build X/y from `train_slice` using `feature_cols` and `target_col`.
+              - If `y_train` has fewer than 2 distinct classes: log warning and **do not** train.
+              - Else:
+                - `m = build_model(model_type)`.
+                - `m.fit(X_train, y_train)`.
+                - `regime_models[cur_sig] = m`.
+                - `last_retrain_idx = train_end_idx`, `retrained = True`.
+                - Log training event for that regime signature.
+          - Set `model = regime_models.get(cur_sig)` (could be `None` if not trained).
+        - Else (for `"static"` or `"hybrid"` or any other, which all share this logic):
+          - If `model is None` OR `force_retrain`:
+            - Build X/y from train_slice.
+            - Check for at least 2 classes.
+            - If OK:
+              - `model = build_model(model_type)`.
+              - `model.fit(X_train, y_train)`.
+              - Update `last_retrain_idx`, set `retrained = True`.
+              - Log training event.
+      - **Prediction for horizon days:**
+        - Initialize `preds = []`, `predict_dates = []`.
+        - For each `h` from 0 to `horizon - 1`:
+          - `pred_idx = i + h`.
+          - If `pred_idx >= n`: break.
+          - `row = df.iloc[pred_idx]`.
+          - `x = row[feature_cols].values.reshape(1, -1)`.
+          - If `model is None`: `sig = 0`.
+          - Else: call `model.predict(x)` inside try / except; on error log and default `sig = 0`.
+          - Append predicted `sig` to `preds` and store corresponding `predict_dates`.
+        - `signal = preds[0] if len(preds) > 0 else 0` -> **final trading signal for day i**.
+      - **PnL and equity update:**
+        - `next_ret_idx = i`.
+        - `day_ret = df.iloc[next_ret_idx][ret_col]` (if index in bounds, else 0).
+        - `trade_cost = transaction_cost * abs(signal - prev_signal)`:
+          - If we change from 0 to 1 or 1 to 0: pay one unit of transaction cost.
+          - If signal stays same: no cost.
+        - `pnl = signal * day_ret - trade_cost`.
+        - `cash_equity *= (1.0 + pnl)`.
+      - **Logging step:**
+        - `step_log` dictionary:
+          - `"date"`: date we are accounting PnL for.
+          - `"train_start"`, `"train_end"`.
+          - Whether we `"retrained"` and whether regime changed.
+          - `"regime_signature"` used.
+          - `"signal"`, `"prev_signal"`, `"day_return"`, `"trade_cost"`, `"pnl"`, `"equity"`.
+          - `"model_used"`: `model.get_name()` if model exists.
+        - Append `step_log` to `backtest_log["runs"]`.
+        - Append to `signals`:
+          - `{"Date", "Signal", "DayReturn", "TradeCost", "PnL", "Equity", "Regime": cur_sig}`.
+        - Append to `equity`:
+          - `{"Date", "Equity"}`.
+        - Update `prev_signal = signal`, increment `i` by `STEP_DAYS`.
+  - **After loop:**
+    - Convert `signals` and `equity` lists to DataFrames with Date index.
+    - Save CSVs:
+      - `results/signals_<TICKER>.csv`.
+      - `results/equity_curve_<TICKER>.csv`.
+    - Save JSON `results/backtest_log_<TICKER>.json` with params + runs.
+    - Log all output paths.
+    - Return `(signals_df, equity_df, backtest_log)`.
+
+CLI section:
+- `if __name__ == "__main__"`:
+  - Logs engine start.
+  - `df = load_features(FEATURE_FILE)`.
+  - Calls `walk_forward_backtest` with module‑level config.
+  - Logs engine finish.
+
+Status:
+- Substantially implemented:
+  - Core walk‑forward training / prediction / PnL logic is in place.
+  - Regime information is integrated via `regime_signature` and `REGIME_COLS`, but **note**:
+    - Current `FEATURE_FILE` is `features_merged.csv`, which does not include regime columns by default.
+    - To use HMM or CP regimes, either:
+      - Change `FEATURE_FILE` to `features_with_hmm_SPY.csv` / `features_with_cp_SPY.csv` (or a merged file).
+      - Or extend the feature pipeline to merge these columns into a unified processed dataset.
+
+Remaining / improvements:
+- Implement multiple assets and portfolio backtesting, potentially via `backtest/portfolio.py`.
+- Parameterization / config‑driven runs; CLI arguments for model type, strategy mode, ticker, etc.
+- Integration with more advanced transaction costs and slippage (likely via `transaction_costs.py` once implemented).
+
+--------------------------------------
+2.10 `scripts/test_models.py`
+--------------------------------------
+
+Purpose:
+- Simple benchmarking script to verify that the RF and XGBoost models train and produce reasonable accuracy on the processed feature dataset.
+
+Module‑level variables:
+- `logger`: `setup_logger("test_models", log_file="test_models.log")`.
+
+Functions:
+- `load_sample_features(path="data/processed/features_merged.csv", ticker="SPY")`
+  - Logs feature load attempt.
+  - Validates that file exists.
+  - Reads CSV with Date index, drops all rows with NaNs.
+  - Builds `feat_cols` as all columns starting with `"{ticker}_"` excluding:
+    - `"{ticker}_Target"`, `"{ticker}_HMM_Regime"`, `"{ticker}_CP_Regime"`.
+  - If `feat_cols` empty: logs error and raises `ValueError`.
+  - Logs number of features and names.
+  - Constructs:
+    - `X = df[feat_cols].values`.
+    - `y = df[f"{ticker}_Target"].values`.
+  - Logs shapes and returns `X, y`.
+
+- `main()`
+  - Logs script start.
+  - Calls `load_sample_features`; on failure logs and re‑raises.
+  - Splits into train/test with 70/30 split on index.
+  - Logs sizes.
+  - **RandomForest test**:
+    - Instantiates `RandomForestTradingModel(n_estimators=50, max_depth=5)`.
+    - Fits on train.
+    - Predicts on test.
+    - Computes accuracy `(preds_rf == y_te).mean()`.
+    - Logs and prints accuracy.
+  - **XGBoost test**:
+    - Similarly instantiate `XGBoostTradingModel`, fit, predict, log accuracy, print.
+  - Logs script completion.
+
+CLI section:
+- `if __name__ == "__main__": main()`
+
+Status:
+- Fully implemented and functioning for quick sanity checks of models given a feature file.
+
+--------------------------------------
+2.11 `Details.json`
+--------------------------------------
+
+Purpose:
+- High‑level design and intended feature set of the framework.
+
+Key points:
+- Project name: `"RegimeAwareTradingFramework"`.
+- Explicit design goals:
+  - Plug‑and‑play ML models.
+  - Multiple adaptation strategies: static, regime‑specific, retrain on shift.
+  - Multiple regime detectors: HMM, changepoint, swappable.
+  - Regime‑aware evaluation and stress tests around regime transitions.
+  - Walk‑forward validation and realistic cost simulations required.
+  - Modular directory structure and design.
+- Documents pipeline steps:
+  - Data prep, feature engineering, regime detection (HMM, changepoint), model training, walk‑forward backtest, evaluation.
+- Details expected metrics:
+  - Annualized return, volatility, Sharpe, Sortino, max drawdown, CVaR, turnover, etc.
+- Outlines expected files in analysis and strategies modules.
+
+Status:
+- Serves as a spec / roadmap; some parts are fully implemented, others are not (see “Remaining Work” section).
+
+--------------------------------------
+2.12 Files currently auto‑generated / not implemented
+--------------------------------------
+
+The following Python files currently only contain the comment:
+`# Auto-generated file. Implement logic here.`  
+They are present as scaffolding to match the design in `Details.json` but do not yet contain functional code.
+
+- `main.py`
+  - Intended role:
+    - Likely top‑level CLI / orchestrator script that:
+      - Calls data fetch.
+      - Calls feature engineering.
+      - Runs regime detectors.
+      - Triggers backtest and analysis.
+    - Currently empty aside from the auto‑generated comment.
+- `backtest/portfolio.py`
+  - Intended role:
+    - Portfolio‑level backtesting:
+      - Combining multiple tickers, capital allocation, portfolio metrics.
+    - Currently unimplemented.
+- `backtest/transaction_costs.py`
+  - Intended role:
+    - Central place to define transaction cost models and slippage.
+    - Possibly reusable by walk‑forward engine and portfolio engine.
+    - Currently unimplemented (transaction cost is instead handled as a simple scalar in `walk_forward_engine.py`).
+- `strategies/regime_specific.py`
+  - Intended role:
+    - Encapsulate logic for regime‑specific strategy (distinct model per regime and switching logic).
+    - Currently some of this logic is baked directly into `walk_forward_engine.py` (via `strategy_mode == "regime_specific"`), but this standalone strategy module is empty.
+- `strategies/static.py`
+  - Intended role:
+    - Encapsulate static strategy where one global model is trained and held without regime‑dependent switching.
+    - As with regime_specific, the logic is currently in `walk_forward_engine.py` but this module is empty.
+- `strategies/retrain_on_shift.py`
+  - Intended role:
+    - Encapsulate “retrain on shift” / hybrid strategy, training a sliding‑window model and retraining on regime change signals.
+    - Current partial behavior is integrated into `walk_forward_engine.py` under the `"hybrid"` strategy mode; dedicated module is empty.
+- `analysis/performance_metrics.py`
+  - Intended role:
+    - Implement functions to compute portfolio and strategy statistics:
+      - Annualized return, vol, Sharpe, Sortino, max drawdown, CVaR, turnover, net returns after costs, etc.
+    - Possibly evaluate performance per regime and around regime transitions as described in `Details.json`.
+    - Currently unimplemented.
+- `analysis/plot_equity.py`
+  - Intended role:
+    - Plot equity curves and possibly multiple strategies on one chart.
+    - Save PNG / PDF as described.
+    - Currently unimplemented.
+- `analysis/regime_analysis.py`
+  - Intended role:
+    - Regime‑specific performance and transition window analysis:
+      - E.g., analyzing 20 days before and after regime changes, drawing down and CVaR around shifts.
+    - Currently unimplemented.
+
+Status:
+- These files are **placeholders**. For now, actual functional logic resides primarily in:
+  - `data/fetch_data.py`
+  - `features/feature_engineering.py`
+  - `regimes/*.py`
+  - `models/*.py`
+  - `backtest/walk_forward_engine.py`
+  - `scripts/test_models.py`
+
+------------------------------------------------------------------------------
+3. Data and Results Artifacts
+------------------------------------------------------------------------------
+
+Data directories:
+- `data/raw/`
+  - Contains ticker CSVs such as:
+    - `GLD.csv`, `IWM.csv`, `QQQ.csv`, `SPY.csv`, `TLT.csv`, `XLF.csv`.
+  - Output of `data/fetch_data.py`.
+
+- `data/processed/`
+  - `features_merged.csv`
+    - Flattened feature dataset from `features/feature_engineering.py`.
+  - `features_with_cp_SPY.csv`
+    - Output of `changepoint_detector.py` with `SPY_CP_Regime` column.
+  - `features_with_hmm_SPY.csv`
+    - Output of `hmm_detector.py` with `SPY_HMM_Regime` column.
+
+Results directories:
+- `results/`
+  - `equity_curve_SPY.csv`
+  - `signals_SPY.csv`
+  - `backtest_log_SPY.json`
+  - Subdirectories:
+    - `figures/` (currently empty; intended for plots).
+    - `stats/` (currently empty; intended for tabular metrics).
+
+Logs:
+- `logs/`
+  - Contains named logs for each major module:
+    - `base_model.log`
+    - `changepoint_detector.log`
+    - `feature_engineering.log`
+    - `fetch_data.log`
+    - `hmm_detector.log`
+    - `random_forest.log`
+    - `test_models.log`
+    - `walk_forward_engine.log`
+    - `xgboost_model.log`
+  - Each log captures structured execution traces for debugging and reproducibility.
+
+------------------------------------------------------------------------------
+4. End‑to‑End Workflow (What Works Today)
+------------------------------------------------------------------------------
+
+Given the current implementation, an end‑to‑end pipeline for a single ticker (SPY) looks like:
+
+1. **Fetch Raw Data**
+   - Run `python data/fetch_data.py` to download OHLCV data for SPY, QQQ, IWM, XLF, GLD, TLT from Yahoo Finance.
+   - Outputs: `data/raw/<TICKER>.csv`.
+
+2. **Feature Engineering**
+   - Run `python features/feature_engineering.py`.
+   - Loads all CSVs from `data/raw/`, merges by date, computes features and targets, saves processed file:
+     - `data/processed/features_merged.csv`.
+
+3. **Regime Detection (Optional / Separate)**
+   - **Changepoint**:
+     - Run `python regimes/changepoint_detector.py`.
+     - Requires `features_merged.csv` to exist.
+     - Outputs: `data/processed/features_with_cp_SPY.csv`.
+   - **HMM**:
+     - Run `python regimes/hmm_detector.py`.
+     - Outputs: `data/processed/features_with_hmm_SPY.csv`.
+   - Note: these regime tags are not yet automatically merged back into the feature file used by walk‑forward backtest.
+
+4. **Model Quick Test**
+   - Run `python scripts/test_models.py`.
+   - Uses `features_merged.csv`:
+     - Builds a train/test split.
+     - Trains `RandomForestTradingModel` and `XGBoostTradingModel`.
+     - Logs and prints classification accuracy.
+
+5. **Walk‑Forward Backtest**
+   - Run `python backtest/walk_forward_engine.py`.
+   - By default:
+     - Uses `MODEL_TYPE = "xgb"` and `STRATEGY_MODE = "hybrid"`.
+     - Uses `FEATURE_FILE = data/processed/features_merged.csv`.
+     - Ignores regime columns unless the feature file happens to contain them.
+   - Outputs:
+     - `results/signals_SPY.csv` – daily signals and related info.
+     - `results/equity_curve_SPY.csv` – daily equity series.
+     - `results/backtest_log_SPY.json` – detailed per‑day log for debugging / analysis.
+
+6. **Manual / External Analysis**
+   - A developer can currently:
+     - Load signals and equity CSVs in notebook or external script to compute metrics and plots.
+     - Use logs for debugging, e.g., regime changes and retrain events.
+   - Dedicated analysis scripts are placeholders and need implementation.
+
+------------------------------------------------------------------------------
+5. Remaining Work and TODOs
+------------------------------------------------------------------------------
+
+This section lists the main missing pieces and next steps for a third‑party developer to continue the project.
+
+--------------------------------------
+5.1 Core code and architecture
+--------------------------------------
+
+- **Implement `main.py` as top‑level orchestrator**
+  - Responsibilities:
+    - Provide a clean CLI (e.g., using `argparse`) to:
+      - Select tickers, date ranges.
+      - Enable or disable regime detectors.
+      - Choose adaptation strategy and model type.
+    - Sequentially invoke:
+      - Data fetch (optional, may be pre‑fetched once).
+      - Feature engineering.
+      - Regime detection modules (HMM & CP).
+      - Walk‑forward backtest(s).
+      - Analysis routines (metrics and plots).
+    - Manage configuration file(s) (YAML/JSON) for reproducible experiments.
+
+- **Refactor strategy logic into dedicated modules**
+  - `strategies/static.py`
+    - Implement a class, e.g., `StaticStrategy`, that:
+      - Holds a single model.
+      - Handles when to train / retrain (maybe only once or only rolling window, but not regime‑driven).
+      - Provides a `generate_signals(df)` method or similar.
+  - `strategies/regime_specific.py`
+    - Implement `RegimeSpecificStrategy`:
+      - Manages a mapping from regime signature to separate model instances.
+      - Handles training per regime segment.
+      - Exposes a uniform interface for backtesting engine.
+  - `strategies/retrain_on_shift.py`
+    - Implement `RetrainOnShiftStrategy` (hybrid):
+      - Maintains one global model with sliding window.
+      - Retrains whenever `regime_signature` changes or after `RETRAIN_INTERVAL`.
+  - Update `walk_forward_engine.py` to:
+    - Use these strategy classes instead of manually implementing all logic inline.
+    - This will reduce duplication and enforce clear separation of concerns.
+
+- **Integrate regime labels into feature files used by backtest**
+  - Currently, `walk_forward_engine.py` reads from `features_merged.csv` only.
+  - Options:
+    - Extend feature engineering or add a new merging script that:
+      - Loads `features_merged.csv`, `features_with_cp_SPY.csv`, and `features_with_hmm_SPY.csv`.
+      - Merges columns `SPY_CP_Regime` and `SPY_HMM_Regime` into a single processed file.
+      - Saves, for example, `features_with_regimes_SPY.csv`, and set `FEATURE_FILE` accordingly.
+    - Or rework regime detectors to operate directly on the MultiIndex feature DataFrame before flattening.
+
+- **Implement `backtest/transaction_costs.py`**
+  - Provide reusable functions or classes for:
+    - Fixed per‑trade cost models (current behavior).
+    - Proportional cost based on trade size and price.
+    - Optional slippage and spread modeling.
+  - Refactor `walk_forward_engine.py` to call into this module rather than embedding inline cost logic.
+
+- **Implement `backtest/portfolio.py`**
+  - Extend framework to handle multiple tickers simultaneously:
+    - Use a portfolio representation (weights per asset).
+    - Link strategies and signals across multiple tickers.
+    - Aggregate PnL and equity at portfolio level.
+  - Support portfolio‑level risk and performance statistics.
+
+--------------------------------------
+5.2 Analysis & evaluation toolkit
+--------------------------------------
+
+- **Implement `analysis/performance_metrics.py`**
+  - Functions for:
+    - Annualized return and volatility.
+    - Sharpe ratio, Sortino ratio.
+    - Max drawdown, drawdown duration.
+    - CVaR / expected shortfall.
+    - Turnover and trade frequency.
+    - Net returns after cost.
+  - Input formats:
+    - Use either:
+      - `equity_curve_<TICKER>.csv`; or
+      - `signals_<TICKER>.csv` with day returns and PnL.
+  - Build per‑regime metrics:
+    - Use regime labels in signals or join them from processed features.
+
+- **Implement `analysis/plot_equity.py`**
+  - Plot functions such as:
+    - Single equity curve vs. benchmark.
+    - Multiple curves (e.g., static vs. regime‑specific vs. retrain‑on‑shift) for comparison.
+  - Save to `results/figures/`.
+
+- **Implement `analysis/regime_analysis.py`**
+  - Regime‑aware analytics:
+    - Summarize performance statistics separately for each regime.
+    - Highlight performance around regime transitions:
+      - For each change in CP/HMM regime:
+        - Analyze window `[t - 20, t + 20]` days.
+        - Compute drawdowns, CVaR, Sharpe, etc., in each window.
+  - Visualizations:
+    - Price / equity curves with colored bands indicating regimes.
+
+- **Populate `results/stats/`**
+  - Save CSV / JSON tables with metric summaries:
+    - Per strategy.
+    - Per regime.
+    - Per regime detector (HMM vs. CP).
+
+--------------------------------------
+5.3 Configuration, documentation, and tooling
+--------------------------------------
+
+- **Add configuration system**
+  - YAML or JSON config files describing:
+    - Universe of tickers.
+    - Train/test periods.
+    - Model hyperparameters.
+    - Strategy type and parameters.
+    - Regime detection settings (HMM states, CP penalty, etc.).
+  - Make `main.py` consume these configs.
+
+- **Write user‑facing documentation / README**
+  - Provide:
+    - Install instructions (using `requirements.txt`).
+    - Example command lines to run full pipeline.
+    - Explanation of each folder and major script.
+    - Example results and interpretation.
+
+- **Unit tests**
+  - Add tests for:
+    - Data pipeline (fetch + feature engineering).
+    - Regime detectors (basic behavior on synthetic series).
+    - Models (fit / predict interface).
+    - Walk‑forward engine (sanity checks on small synthetic data).
+
+--------------------------------------
+5.4 Minor technical notes and cleanups
+--------------------------------------
+
+- Avoid double‑adding log handlers in `setup_logger` if `setup_logger` is called multiple times with the same name (low severity).
+- Ensure that the feature engineering and regime files are consistent about:
+  - Column naming conventions.
+  - Date indexing vs. column.
+- Consider adding notebooks for:
+  - Quick visual check of regimes.
+  - Parameter tuning for HMM and changepoint penalty.
+
+------------------------------------------------------------------------------
+6. Summary for New Contributors
+------------------------------------------------------------------------------
+
+- The **core data, feature, regime, model, and walk‑forward backtest pipeline is implemented and working** for a single ticker with simple strategies and costs.
+- The project already outputs:
+  - Processed features.
+  - Regime labels (in separate files).
+  - Walk‑forward trading signals and equity curves.
+  - Detailed per‑day logs.
+- Major work remaining:
+  - Implement orchestrating `main.py`, strategy modules, portfolio and cost modules, and analysis scripts.
+  - Fully integrate regime labels into the backtest input pipeline.
+  - Build a rich evaluation & visualization layer matching the design in `Details.json`.
+
+With the above map of files, variables, and responsibilities, a third‑party developer can now:
+1. Reproduce the current pipeline end‑to‑end.
+2. Implement missing modules in line with the documented intent.
+3. Extend models, regimes, and strategies without needing to rewrite existing components.
+
+
