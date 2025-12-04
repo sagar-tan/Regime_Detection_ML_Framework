@@ -14,3 +14,5 @@ ta
 scikit-learn
 jupyter
 ipykernel
+ruptures
+yfinance

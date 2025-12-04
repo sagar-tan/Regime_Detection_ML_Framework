@@ -1,0 +1,18 @@
+2025-12-04 17:17:58 | INFO | changepoint_detector | ===== CP Regime Detection Started =====
+2025-12-04 17:17:58 | INFO | changepoint_detector | Loading processed feature file...
+2025-12-04 17:17:58 | INFO | changepoint_detector | Loaded processed feature dataset with shape (3725, 60)
+2025-12-04 17:17:58 | ERROR | changepoint_detector | Failed to extract return series for SPY: ('SPY', 'Return')
+2025-12-04 17:45:43 | INFO | changepoint_detector | ===== CP Regime Detection Started =====
+2025-12-04 17:45:43 | INFO | changepoint_detector | Loading processed feature file...
+2025-12-04 17:45:43 | INFO | changepoint_detector | Loaded processed feature dataset with shape (3725, 60)
+2025-12-04 17:45:43 | ERROR | changepoint_detector | Failed to extract return series for SPY: ('SPY', 'Return')
+2025-12-04 17:47:34 | INFO | changepoint_detector | ===== CP Regime Detection Started =====
+2025-12-04 17:47:34 | INFO | changepoint_detector | Loading processed feature file...
+2025-12-04 17:47:35 | INFO | changepoint_detector | Loaded processed features with shape (3725, 60)
+2025-12-04 17:47:35 | INFO | changepoint_detector | Extracted CP series for SPY: length 3725
+2025-12-04 17:47:35 | INFO | changepoint_detector | Running PELT CP detection
+2025-12-04 17:47:35 | INFO | changepoint_detector | Model=rbf, Penalty=10
+2025-12-04 17:49:10 | INFO | changepoint_detector | Detected breakpoints: [1595, 1970, 2945, 3280, 3725]
+2025-12-04 17:49:10 | INFO | changepoint_detector | Number of regimes formed: 5
+2025-12-04 17:49:10 | INFO | changepoint_detector | Saved CP regime file to data\processed\features_with_cp_SPY.csv
+2025-12-04 17:49:10 | INFO | changepoint_detector | ===== CP Regime Detection Finished =====
