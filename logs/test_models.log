@@ -9,3 +9,14 @@
 2025-12-04 21:03:19 | INFO | test_models | Testing XGBoostTradingModel
 2025-12-04 21:03:19 | INFO | test_models | XGBoost accuracy: 0.9991
 2025-12-04 21:03:19 | INFO | test_models | ===== TEST MODELS SCRIPT COMPLETED =====
+2025-12-04 21:30:42 | INFO | test_models | ===== TEST MODELS SCRIPT STARTED =====
+2025-12-04 21:30:42 | INFO | test_models | Loading features for testing from data/processed/features_final_SPY.csv
+2025-12-04 21:30:42 | INFO | test_models | Loaded dataframe with shape (3725, 62)
+2025-12-04 21:30:42 | INFO | test_models | Using 9 features: ['SPY_Open', 'SPY_High', 'SPY_Low', 'SPY_Close', 'SPY_Volume', 'SPY_Return', 'SPY_Vol20', 'SPY_SMA10', 'SPY_SMA50']
+2025-12-04 21:30:42 | INFO | test_models | Feature matrix shape: (3725, 9), Target shape: (3725,)
+2025-12-04 21:30:42 | INFO | test_models | Train size: 2607, Test size: 1118
+2025-12-04 21:30:42 | INFO | test_models | Testing RandomForestTradingModel
+2025-12-04 21:30:42 | INFO | test_models | RandomForest accuracy: 1.0000
+2025-12-04 21:30:42 | INFO | test_models | Testing XGBoostTradingModel
+2025-12-04 21:30:42 | INFO | test_models | XGBoost accuracy: 0.9991
+2025-12-04 21:30:42 | INFO | test_models | ===== TEST MODELS SCRIPT COMPLETED =====

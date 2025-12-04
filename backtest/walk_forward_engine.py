@@ -15,7 +15,7 @@ logger = setup_logger("walk_forward_engine", log_file="walk_forward_engine.log")
 # Configuration (change here)
 # --------------------------
 TICKER = "SPY"
-FEATURE_FILE = Path("data/processed/features_merged.csv")
+FEATURE_FILE = Path("data/processed/features_final_SPY.csv")
 RESULTS_DIR = Path("results")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
