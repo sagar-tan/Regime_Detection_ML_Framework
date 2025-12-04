@@ -1,0 +1,3 @@
+2025-12-04 21:03:19 | INFO | xgboost_model | Initialized XGBoostTradingModel (n_estimators=50, max_depth=3, lr=0.1)
+2025-12-04 21:03:19 | INFO | xgboost_model | Fitting XGBoost on 2607 samples and 9 features
+2025-12-04 21:03:19 | INFO | xgboost_model | XGBoost fit complete
