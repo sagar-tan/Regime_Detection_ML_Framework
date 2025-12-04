@@ -88,11 +88,20 @@ def compute_features(merged_df):
 
 def save_processed(df):
     """
-    Saves processed features to CSV.
+    Saves processed features with flattened columns and Date as a proper column.
     """
     filepath = PROCESSED_DIR / "features_merged.csv"
-    df.to_csv(filepath)
+
+    # Flatten MultiIndex columns like ('GLD','Close') → 'GLD_Close'
+    df_flat = df.copy()
+    df_flat.columns = [f"{lvl0}_{lvl1}" for lvl0, lvl1 in df_flat.columns]
+
+    # Date index → column
+    df_flat = df_flat.reset_index()
+
+    df_flat.to_csv(filepath, index=False)
     logger.info(f"Processed features saved to {filepath}")
+
 
 
 if __name__ == "__main__":
