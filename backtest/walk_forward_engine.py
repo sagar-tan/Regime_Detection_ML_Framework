@@ -9,6 +9,11 @@ from utils.logger import setup_logger
 from models.random_forest import RandomForestTradingModel
 from models.xgboost_model import XGBoostTradingModel
 
+from strategies.static import StaticStrategy
+from strategies.regime_specific import RegimeSpecificStrategy
+from strategies.hybrid import HybridStrategy
+
+
 logger = setup_logger("walk_forward_engine", log_file="walk_forward_engine.log")
 
 # --------------------------
@@ -112,6 +117,17 @@ def walk_forward_backtest(
     n = len(df)
     logger.info(f"Starting walk-forward. total samples: {n}")
 
+
+    if strategy_mode == "static":
+        strategy = StaticStrategy()
+    elif strategy_mode == "regime_specific":
+        strategy = RegimeSpecificStrategy()
+    elif strategy_mode == "hybrid":
+        strategy = HybridStrategy()
+    else:
+        raise ValueError(f"Unknown strategy_mode {strategy_mode}")
+
+
     # results containers
     signals = []
     equity = []
@@ -159,7 +175,13 @@ def walk_forward_backtest(
             if regime_signature(prev_row) != regime_signature(cur_row):
                 regime_changed = True
 
-        force_retrain = regime_changed or ((train_end_idx - last_retrain_idx) >= retrain_interval)
+        steps_since_last_retrain = train_end_idx - last_retrain_idx
+        force_retrain = strategy.should_retrain(
+            regime_changed,
+            steps_since_last_retrain,
+            retrain_interval
+        )
+
 
         # in regime_specific mode we may need a model per regime; determine current signature
         cur_sig = regime_signature(df.iloc[train_end_idx])
@@ -179,9 +201,10 @@ def walk_forward_backtest(
                     last_retrain_idx = train_end_idx
                     retrained = True
                     logger.info(f"Trained new regime model for signature {cur_sig} at idx {train_end_idx}")
-            model = regime_models.get(cur_sig)
+            model = strategy.select_model(regime_models, cur_sig, model)
+
         else:
-            # static or hybrid or default
+               # static or hybrid or default
             if (model is None) or force_retrain:
                 X_train = train_slice[feature_cols].values
                 y_train = train_slice[target_col].values
