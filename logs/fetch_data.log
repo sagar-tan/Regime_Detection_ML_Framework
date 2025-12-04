@@ -1,0 +1,28 @@
+2025-12-04 16:19:11 | INFO | fetch_data | ===== Fetch Data Script Started =====
+2025-12-04 16:19:11 | INFO | fetch_data | Tickers: ['SPY', 'QQQ', 'IWM', 'XLF', 'GLD', 'TLT']
+2025-12-04 16:19:11 | INFO | fetch_data | Date Range: 2010-01-01 to 2025-01-01
+2025-12-04 16:19:11 | INFO | fetch_data | Starting download for SPY from 2010-01-01 to 2025-01-01
+2025-12-04 16:19:15 | INFO | fetch_data | Downloaded 3774 rows for SPY
+2025-12-04 16:19:15 | INFO | fetch_data | Final cleaned rows for SPY: 3774
+2025-12-04 16:19:15 | INFO | fetch_data | Saved SPY to data\raw\SPY.csv
+2025-12-04 16:19:15 | INFO | fetch_data | Starting download for QQQ from 2010-01-01 to 2025-01-01
+2025-12-04 16:19:17 | INFO | fetch_data | Downloaded 3774 rows for QQQ
+2025-12-04 16:19:17 | INFO | fetch_data | Final cleaned rows for QQQ: 3774
+2025-12-04 16:19:17 | INFO | fetch_data | Saved QQQ to data\raw\QQQ.csv
+2025-12-04 16:19:17 | INFO | fetch_data | Starting download for IWM from 2010-01-01 to 2025-01-01
+2025-12-04 16:19:17 | INFO | fetch_data | Downloaded 3774 rows for IWM
+2025-12-04 16:19:17 | INFO | fetch_data | Final cleaned rows for IWM: 3774
+2025-12-04 16:19:17 | INFO | fetch_data | Saved IWM to data\raw\IWM.csv
+2025-12-04 16:19:17 | INFO | fetch_data | Starting download for XLF from 2010-01-01 to 2025-01-01
+2025-12-04 16:19:18 | INFO | fetch_data | Downloaded 3774 rows for XLF
+2025-12-04 16:19:18 | INFO | fetch_data | Final cleaned rows for XLF: 3774
+2025-12-04 16:19:18 | INFO | fetch_data | Saved XLF to data\raw\XLF.csv
+2025-12-04 16:19:18 | INFO | fetch_data | Starting download for GLD from 2010-01-01 to 2025-01-01
+2025-12-04 16:19:19 | INFO | fetch_data | Downloaded 3774 rows for GLD
+2025-12-04 16:19:19 | INFO | fetch_data | Final cleaned rows for GLD: 3774
+2025-12-04 16:19:19 | INFO | fetch_data | Saved GLD to data\raw\GLD.csv
+2025-12-04 16:19:19 | INFO | fetch_data | Starting download for TLT from 2010-01-01 to 2025-01-01
+2025-12-04 16:19:20 | INFO | fetch_data | Downloaded 3774 rows for TLT
+2025-12-04 16:19:20 | INFO | fetch_data | Final cleaned rows for TLT: 3774
+2025-12-04 16:19:20 | INFO | fetch_data | Saved TLT to data\raw\TLT.csv
+2025-12-04 16:19:20 | INFO | fetch_data | ===== Fetch Data Script Completed =====
