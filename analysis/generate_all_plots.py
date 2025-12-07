@@ -14,7 +14,7 @@ def generate_all():
         "results/figures/hmm_timeline_SPY.png"
     )
 
-    plot_transition_windows(
+    plot_transition_windows( 
         "results/signals_SPY.csv",
         "results/figures/transition_window_SPY.png"
     )
