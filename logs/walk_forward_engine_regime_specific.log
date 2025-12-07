@@ -1,0 +1,47 @@
+2025-12-07 12:15:12 | INFO | walk_forward_engine_regime_specific | ===== WALK-FORWARD BACKTEST ENGINE (REGIME-SPECIFIC STRATEGY) STARTED =====
+2025-12-07 12:15:12 | INFO | walk_forward_engine_regime_specific | Loaded features: (3725, 62)
+2025-12-07 12:15:12 | INFO | walk_forward_engine_regime_specific | Detected 9 feature columns for SPY
+2025-12-07 12:15:12 | INFO | walk_forward_engine_regime_specific | Starting walk-forward. total samples: 3725
+2025-12-07 12:15:12 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|0 at idx 749
+2025-12-07 12:15:12 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|0 at idx 1149
+2025-12-07 12:15:13 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|0 at idx 1154
+2025-12-07 12:15:13 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|0 at idx 1194
+2025-12-07 12:15:13 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|0 at idx 1201
+2025-12-07 12:15:13 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|0 at idx 1368
+2025-12-07 12:15:13 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|0 at idx 1400
+2025-12-07 12:15:13 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|0 at idx 1440
+2025-12-07 12:15:13 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|0 at idx 1501
+2025-12-07 12:15:13 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|0 at idx 1580
+2025-12-07 12:15:13 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|0 at idx 1586
+2025-12-07 12:15:13 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|1 at idx 1595
+2025-12-07 12:15:14 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|2 at idx 1970
+2025-12-07 12:15:14 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|2 at idx 1986
+2025-12-07 12:15:14 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|2 at idx 1993
+2025-12-07 12:15:14 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|2 at idx 2019
+2025-12-07 12:15:14 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|2 at idx 2030
+2025-12-07 12:15:14 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|2 at idx 2159
+2025-12-07 12:15:14 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|2 at idx 2218
+2025-12-07 12:15:15 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|2 at idx 2363
+2025-12-07 12:15:15 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|2 at idx 2378
+2025-12-07 12:15:15 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|2 at idx 2501
+2025-12-07 12:15:15 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|2 at idx 2592
+2025-12-07 12:15:15 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|2 at idx 2636
+2025-12-07 12:15:15 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|2 at idx 2682
+2025-12-07 12:15:15 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|2 at idx 2736
+2025-12-07 12:15:15 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|2 at idx 2741
+2025-12-07 12:15:16 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|2 at idx 2756
+2025-12-07 12:15:16 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|2 at idx 2763
+2025-12-07 12:15:16 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|3 at idx 2945
+2025-12-07 12:15:16 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|3 at idx 2947
+2025-12-07 12:15:16 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|3 at idx 2965
+2025-12-07 12:15:16 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|3 at idx 2980
+2025-12-07 12:15:16 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|3 at idx 3227
+2025-12-07 12:15:16 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|4 at idx 3280
+2025-12-07 12:15:17 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|4 at idx 3613
+2025-12-07 12:15:17 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 0|4 at idx 3625
+2025-12-07 12:15:17 | INFO | walk_forward_engine_regime_specific | Trained new regime model for signature 1|4 at idx 3716
+2025-12-07 12:15:17 | INFO | walk_forward_engine_regime_specific | Saved trades to results\trades_regime_specific.csv
+2025-12-07 12:15:17 | INFO | walk_forward_engine_regime_specific | Saved signals to results\signals_regime_specific.csv
+2025-12-07 12:15:17 | INFO | walk_forward_engine_regime_specific | Saved equity curve to results\equity_curve_regime_specific.csv
+2025-12-07 12:15:17 | INFO | walk_forward_engine_regime_specific | Saved backtest log to results\backtest_log_regime_specific.json
+2025-12-07 12:15:17 | INFO | walk_forward_engine_regime_specific | ===== WALK-FORWARD BACKTEST ENGINE (REGIME-SPECIFIC STRATEGY) FINISHED =====
