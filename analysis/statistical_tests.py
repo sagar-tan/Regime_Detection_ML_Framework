@@ -258,7 +258,7 @@ def win_rate_significance(hit_ratio, n_predictions, null_hypothesis=0.5):
     """
     # Binomial test
     n_correct = int(hit_ratio * n_predictions)
-    p_value = stats.binom_test(n_correct, n_predictions, null_hypothesis, alternative='two-sided')
+    p_value = stats.binomtest(n_correct, n_predictions, null_hypothesis, alternative='two-sided').pvalue
     
     # Z-statistic
     p_obs = hit_ratio
