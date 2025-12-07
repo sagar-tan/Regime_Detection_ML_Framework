@@ -1,0 +1,14 @@
+2025-12-07 13:29:59 | INFO | walk_forward_engine_static_BTC | ===== WALK-FORWARD BACKTEST ENGINE (STATIC STRATEGY - BTC) STARTED =====
+2025-12-07 13:29:59 | INFO | walk_forward_engine_static_BTC | Loaded features: (3794, 25)
+2025-12-07 13:29:59 | INFO | walk_forward_engine_static_BTC | Detected 17 feature columns for BTC-USD
+2025-12-07 13:29:59 | INFO | walk_forward_engine_static_BTC | Starting walk-forward. total samples: 3794
+2025-12-07 13:29:59 | INFO | walk_forward_engine_static_BTC | Trained new global model at idx 749, retrain forced=False, regime_changed=False
+2025-12-07 13:30:00 | INFO | walk_forward_engine_static_BTC | Trained new global model at idx 1499, retrain forced=True, regime_changed=False
+2025-12-07 13:30:01 | INFO | walk_forward_engine_static_BTC | Trained new global model at idx 2249, retrain forced=True, regime_changed=False
+2025-12-07 13:30:02 | INFO | walk_forward_engine_static_BTC | Trained new global model at idx 2999, retrain forced=True, regime_changed=False
+2025-12-07 13:30:04 | INFO | walk_forward_engine_static_BTC | Trained new global model at idx 3749, retrain forced=True, regime_changed=False
+2025-12-07 13:30:04 | INFO | walk_forward_engine_static_BTC | Saved trades to results\trades_static_BTC.csv
+2025-12-07 13:30:04 | INFO | walk_forward_engine_static_BTC | Saved signals to results\signals_static_BTC.csv
+2025-12-07 13:30:04 | INFO | walk_forward_engine_static_BTC | Saved equity curve to results\equity_curve_static_BTC.csv
+2025-12-07 13:30:04 | INFO | walk_forward_engine_static_BTC | Saved backtest log to results\backtest_log_static_BTC.json
+2025-12-07 13:30:04 | INFO | walk_forward_engine_static_BTC | ===== WALK-FORWARD BACKTEST ENGINE (STATIC STRATEGY - BTC) FINISHED =====
