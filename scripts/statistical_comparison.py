@@ -240,9 +240,9 @@ def main():
     for strategy_name, filepath in strategy_dict.items():
         if Path(filepath).exists():
             existing_strategies[strategy_name] = filepath
-            logger.info(f"✓ Found {strategy_name}: {filepath}")
+            logger.info(f"[OK] Found {strategy_name}: {filepath}")
         else:
-            logger.warning(f"✗ Missing {strategy_name}: {filepath}")
+            logger.warning(f"[MISSING] Missing {strategy_name}: {filepath}")
     
     if len(existing_strategies) < 2:
         logger.error("Need at least 2 strategy files to compare!")
