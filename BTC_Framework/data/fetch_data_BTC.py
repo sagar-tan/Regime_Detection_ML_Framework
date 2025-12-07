@@ -64,8 +64,17 @@ def clean_btc_data(df):
     # Reset index to make Date a column
     df = df.reset_index()
     
+    new_columns = []
+    for col in df.columns:
+        if isinstance(col, tuple):
+            # Take the first element of the tuple ('Close', 'BTC-USD') -> 'Close'
+            new_columns.append(col[0].lower())
+        else:
+            # Handle standard strings (like the 'Date' column)
+            new_columns.append(str(col).lower())
+
     # Rename columns to lowercase for consistency
-    df.columns = [col.lower() for col in df.columns]
+    df.columns = new_columns
     
     # Handle missing values
     initial_rows = len(df)
