@@ -1,0 +1,159 @@
+STATISTICAL SIGNIFICANCE REPORT
+================================================================================
+
+SUMMARY TABLE
+--------------------------------------------------------------------------------
+       Strategy  Total Return (%)  Ann. Return (%)  Ann. Volatility (%)  Sharpe Ratio  Sortino Ratio  Max Drawdown (%)  Hit Ratio (%)  CVaR 5% (%)  Observations
+         Static        3380357.83             15.6                16.78        0.9298         1.1254             -0.20          54.96         -1.6          2975
+Regime-Specific        3368634.11             15.6                16.78        0.9298         1.1254             -0.19          54.69         -1.6          2975
+         Hybrid        3368634.11             15.6                16.78        0.9298         1.1254             -0.19          54.69         -1.6          2975
+
+PAIRWISE COMPARISONS
+--------------------------------------------------------------------------------
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  STATISTICAL SIGNIFICANCE REPORT: Static vs Regime-Specific
+╚════════════════════════════════════════════════════════════════════════════╝
+
+1. DAILY RETURNS COMPARISON (Paired t-test)
+   ─────────────────────────────────────────
+   No significant difference between Static and Regime-Specific
+   
+   t-statistic: nan
+   p-value: nan ✗ Not significant
+   Mean daily return difference: +0.0000%
+   Effect size (Cohen's d): 0.0000
+   Observations: 2975
+
+2. SHARPE RATIO DECOMPOSITION
+   ──────────────────────────
+Static vs Regime-Specific:
+  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)
+  Annual Return: 15.60% vs 15.60% (diff: +0.00%)
+  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)
+  Improvement Source: No Improvement
+
+3. WIN RATE ANALYSIS
+   ──────────────────
+   Hit rate (54.96%) is significantly BETTER than random (50.0%)
+   
+   Z-statistic: 5.4085
+   P-value: 0.000000
+
+4. MAXIMUM DRAWDOWN COMPARISON
+   ────────────────────────────
+   Static has LOWER max drawdown (-0.20%) than Regime-Specific (-0.19%). Risk reduction: 0.00%
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  CONCLUSION
+╚════════════════════════════════════════════════════════════════════════════╝
+
+Overall Assessment:
+  • Daily returns significantly different: False
+  • Sharpe ratio improvement: +0.0000
+  • Win rate better than random: True
+  • Lower maximum drawdown: True
+
+Research Paper Recommendation:
+  WEAK EVIDENCE - NEEDS IMPROVEMENT
+  ✓ Win rate significantly better than random (p < 0.05)
+
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  STATISTICAL SIGNIFICANCE REPORT: Static vs Hybrid
+╚════════════════════════════════════════════════════════════════════════════╝
+
+1. DAILY RETURNS COMPARISON (Paired t-test)
+   ─────────────────────────────────────────
+   No significant difference between Static and Hybrid
+   
+   t-statistic: nan
+   p-value: nan ✗ Not significant
+   Mean daily return difference: +0.0000%
+   Effect size (Cohen's d): 0.0000
+   Observations: 2975
+
+2. SHARPE RATIO DECOMPOSITION
+   ──────────────────────────
+Static vs Hybrid:
+  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)
+  Annual Return: 15.60% vs 15.60% (diff: +0.00%)
+  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)
+  Improvement Source: No Improvement
+
+3. WIN RATE ANALYSIS
+   ──────────────────
+   Hit rate (54.96%) is significantly BETTER than random (50.0%)
+   
+   Z-statistic: 5.4085
+   P-value: 0.000000
+
+4. MAXIMUM DRAWDOWN COMPARISON
+   ────────────────────────────
+   Static has LOWER max drawdown (-0.20%) than Hybrid (-0.19%). Risk reduction: 0.00%
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  CONCLUSION
+╚════════════════════════════════════════════════════════════════════════════╝
+
+Overall Assessment:
+  • Daily returns significantly different: False
+  • Sharpe ratio improvement: +0.0000
+  • Win rate better than random: True
+  • Lower maximum drawdown: True
+
+Research Paper Recommendation:
+  WEAK EVIDENCE - NEEDS IMPROVEMENT
+  ✓ Win rate significantly better than random (p < 0.05)
+
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  STATISTICAL SIGNIFICANCE REPORT: Regime-Specific vs Hybrid
+╚════════════════════════════════════════════════════════════════════════════╝
+
+1. DAILY RETURNS COMPARISON (Paired t-test)
+   ─────────────────────────────────────────
+   No significant difference between Regime-Specific and Hybrid
+   
+   t-statistic: nan
+   p-value: nan ✗ Not significant
+   Mean daily return difference: +0.0000%
+   Effect size (Cohen's d): 0.0000
+   Observations: 2975
+
+2. SHARPE RATIO DECOMPOSITION
+   ──────────────────────────
+Regime-Specific vs Hybrid:
+  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)
+  Annual Return: 15.60% vs 15.60% (diff: +0.00%)
+  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)
+  Improvement Source: No Improvement
+
+3. WIN RATE ANALYSIS
+   ──────────────────
+   Hit rate (54.69%) is significantly BETTER than random (50.0%)
+   
+   Z-statistic: 5.1152
+   P-value: 0.000000
+
+4. MAXIMUM DRAWDOWN COMPARISON
+   ────────────────────────────
+   Both strategies have same max drawdown (-0.19%)
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  CONCLUSION
+╚════════════════════════════════════════════════════════════════════════════╝
+
+Overall Assessment:
+  • Daily returns significantly different: False
+  • Sharpe ratio improvement: +0.0000
+  • Win rate better than random: True
+  • Lower maximum drawdown: False
+
+Research Paper Recommendation:
+  WEAK EVIDENCE - NEEDS IMPROVEMENT
+  ✓ Win rate significantly better than random (p < 0.05)
+
+

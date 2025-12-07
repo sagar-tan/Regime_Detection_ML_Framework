@@ -1,0 +1,72 @@
+2025-12-07 12:44:00 | INFO | statistical_comparison | Starting statistical comparison analysis...
+2025-12-07 12:44:00 | INFO | statistical_comparison | [OK] Found Static: results/signals_static.csv
+2025-12-07 12:44:00 | INFO | statistical_comparison | [OK] Found Regime-Specific: results/signals_regime_specific.csv
+2025-12-07 12:44:00 | INFO | statistical_comparison | [OK] Found Hybrid: results/signals_hybrid.csv
+2025-12-07 12:44:00 | WARNING | statistical_comparison | [MISSING] Missing Buy-and-Hold: results/signals_bah.csv
+2025-12-07 12:44:00 | INFO | statistical_comparison | 
+================================================================================
+2025-12-07 12:44:00 | INFO | statistical_comparison | GENERATING SUMMARY TABLE
+2025-12-07 12:44:00 | INFO | statistical_comparison | ================================================================================
+
+2025-12-07 12:44:00 | INFO | statistical_comparison | Processing Static...
+2025-12-07 12:44:00 | INFO | statistical_comparison | Processing Regime-Specific...
+2025-12-07 12:44:00 | INFO | statistical_comparison | Processing Hybrid...
+2025-12-07 12:44:00 | INFO | statistical_comparison | ================================================================================
+2025-12-07 12:44:00 | INFO | statistical_comparison | RUNNING PAIRWISE STATISTICAL COMPARISONS
+2025-12-07 12:44:00 | INFO | statistical_comparison | ================================================================================
+2025-12-07 12:44:00 | INFO | statistical_comparison | 
+================================================================================
+2025-12-07 12:44:00 | INFO | statistical_comparison | COMPARISON: Static vs Regime-Specific
+2025-12-07 12:44:00 | INFO | statistical_comparison | ================================================================================
+
+2025-12-07 12:44:00 | INFO | statistical_comparison | 
+================================================================================
+2025-12-07 12:44:00 | INFO | statistical_comparison | COMPARISON: Static vs Hybrid
+2025-12-07 12:44:00 | INFO | statistical_comparison | ================================================================================
+
+2025-12-07 12:44:00 | INFO | statistical_comparison | 
+================================================================================
+2025-12-07 12:44:00 | INFO | statistical_comparison | COMPARISON: Regime-Specific vs Hybrid
+2025-12-07 12:44:00 | INFO | statistical_comparison | ================================================================================
+
+2025-12-07 12:44:00 | INFO | statistical_comparison | Exported JSON results to results\statistical_comparison.json
+2025-12-07 12:44:00 | INFO | statistical_comparison | Exported summary table to results\strategy_summary.csv
+2025-12-07 12:47:47 | INFO | statistical_comparison | Starting statistical comparison analysis...
+2025-12-07 12:47:47 | INFO | statistical_comparison | [OK] Found Static: results/signals_static.csv
+2025-12-07 12:47:47 | INFO | statistical_comparison | [OK] Found Regime-Specific: results/signals_regime_specific.csv
+2025-12-07 12:47:47 | INFO | statistical_comparison | [OK] Found Hybrid: results/signals_hybrid.csv
+2025-12-07 12:47:47 | WARNING | statistical_comparison | [MISSING] Missing Buy-and-Hold: results/signals_bah.csv
+2025-12-07 12:47:47 | INFO | statistical_comparison | 
+================================================================================
+2025-12-07 12:47:47 | INFO | statistical_comparison | GENERATING SUMMARY TABLE
+2025-12-07 12:47:47 | INFO | statistical_comparison | ================================================================================
+
+2025-12-07 12:47:47 | INFO | statistical_comparison | Processing Static...
+2025-12-07 12:47:47 | INFO | statistical_comparison | Processing Regime-Specific...
+2025-12-07 12:47:47 | INFO | statistical_comparison | Processing Hybrid...
+2025-12-07 12:47:48 | INFO | statistical_comparison | ================================================================================
+2025-12-07 12:47:48 | INFO | statistical_comparison | RUNNING PAIRWISE STATISTICAL COMPARISONS
+2025-12-07 12:47:48 | INFO | statistical_comparison | ================================================================================
+2025-12-07 12:47:48 | INFO | statistical_comparison | 
+================================================================================
+2025-12-07 12:47:48 | INFO | statistical_comparison | COMPARISON: Static vs Regime-Specific
+2025-12-07 12:47:48 | INFO | statistical_comparison | ================================================================================
+
+2025-12-07 12:47:48 | INFO | statistical_comparison | 
+================================================================================
+2025-12-07 12:47:48 | INFO | statistical_comparison | COMPARISON: Static vs Hybrid
+2025-12-07 12:47:48 | INFO | statistical_comparison | ================================================================================
+
+2025-12-07 12:47:48 | INFO | statistical_comparison | 
+================================================================================
+2025-12-07 12:47:48 | INFO | statistical_comparison | COMPARISON: Regime-Specific vs Hybrid
+2025-12-07 12:47:48 | INFO | statistical_comparison | ================================================================================
+
+2025-12-07 12:47:48 | INFO | statistical_comparison | Exported JSON results to results\statistical_comparison.json
+2025-12-07 12:47:48 | INFO | statistical_comparison | Exported summary table to results\strategy_summary.csv
+2025-12-07 12:47:48 | INFO | statistical_comparison | Exported formatted report to results\statistical_report.txt
+2025-12-07 12:47:48 | INFO | statistical_comparison | 
+================================================================================
+2025-12-07 12:47:48 | INFO | statistical_comparison | STATISTICAL COMPARISON COMPLETE
+2025-12-07 12:47:48 | INFO | statistical_comparison | ================================================================================
+2025-12-07 12:47:48 | INFO | statistical_comparison | Results exported to results/ directory

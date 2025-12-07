@@ -1,0 +1,4 @@
+Strategy,Total Return (%),Ann. Return (%),Ann. Volatility (%),Sharpe Ratio,Sortino Ratio,Max Drawdown (%),Hit Ratio (%),CVaR 5% (%),Observations
+Static,3380357.83,15.6,16.78,0.9298,1.1254,-0.2,54.96,-1.6,2975
+Regime-Specific,3368634.11,15.6,16.78,0.9298,1.1254,-0.19,54.69,-1.6,2975
+Hybrid,3368634.11,15.6,16.78,0.9298,1.1254,-0.19,54.69,-1.6,2975

@@ -1,0 +1,162 @@
+2025-12-07 12:44:00 | INFO | statistical_tests | Loading signals for Static and Regime-Specific...
+2025-12-07 12:44:00 | INFO | statistical_tests | Aligned to 2975 common dates
+2025-12-07 12:44:00 | INFO | statistical_tests | Running statistical tests...
+2025-12-07 12:44:00 | INFO | statistical_tests | Paired t-test: Static vs Regime-Specific
+2025-12-07 12:44:00 | INFO | statistical_tests |   t-statistic: nan
+2025-12-07 12:44:00 | INFO | statistical_tests |   p-value: nan
+2025-12-07 12:44:00 | INFO | statistical_tests |   Significant: False
+2025-12-07 12:44:00 | INFO | statistical_tests |   Mean difference: 0.000000
+2025-12-07 12:44:00 | INFO | statistical_tests |   Cohen's d: 0.0000
+2025-12-07 12:44:00 | INFO | statistical_tests |   Interpretation: No significant difference between Static and Regime-Specific
+2025-12-07 12:44:00 | INFO | statistical_tests | Sharpe Ratio Decomposition:
+2025-12-07 12:44:00 | INFO | statistical_tests | Static vs Regime-Specific:
+  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)
+  Annual Return: 15.60% vs 15.60% (diff: +0.00%)
+  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)
+  Improvement Source: No Improvement
+2025-12-07 12:44:00 | INFO | statistical_tests | Win Rate Significance Test:
+2025-12-07 12:44:00 | INFO | statistical_tests |   Hit Ratio: 54.96%
+2025-12-07 12:44:00 | INFO | statistical_tests |   Z-statistic: 5.4085
+2025-12-07 12:44:00 | INFO | statistical_tests |   P-value: 0.000000
+2025-12-07 12:44:00 | INFO | statistical_tests |   Significant: True
+2025-12-07 12:44:00 | INFO | statistical_tests |   Hit rate (54.96%) is significantly BETTER than random (50.0%)
+2025-12-07 12:44:00 | INFO | statistical_tests | Maximum Drawdown Comparison:
+2025-12-07 12:44:00 | INFO | statistical_tests |   Static Max DD: -0.20%
+2025-12-07 12:44:00 | INFO | statistical_tests |   Regime-Specific Max DD: -0.19%
+2025-12-07 12:44:00 | INFO | statistical_tests |   Static has LOWER max drawdown (-0.20%) than Regime-Specific (-0.19%). Risk reduction: 0.00%
+2025-12-07 12:44:00 | INFO | statistical_tests | Comparison complete.
+2025-12-07 12:44:00 | INFO | statistical_tests | Loading signals for Static and Hybrid...
+2025-12-07 12:44:00 | INFO | statistical_tests | Aligned to 2975 common dates
+2025-12-07 12:44:00 | INFO | statistical_tests | Running statistical tests...
+2025-12-07 12:44:00 | INFO | statistical_tests | Paired t-test: Static vs Hybrid
+2025-12-07 12:44:00 | INFO | statistical_tests |   t-statistic: nan
+2025-12-07 12:44:00 | INFO | statistical_tests |   p-value: nan
+2025-12-07 12:44:00 | INFO | statistical_tests |   Significant: False
+2025-12-07 12:44:00 | INFO | statistical_tests |   Mean difference: 0.000000
+2025-12-07 12:44:00 | INFO | statistical_tests |   Cohen's d: 0.0000
+2025-12-07 12:44:00 | INFO | statistical_tests |   Interpretation: No significant difference between Static and Hybrid
+2025-12-07 12:44:00 | INFO | statistical_tests | Sharpe Ratio Decomposition:
+2025-12-07 12:44:00 | INFO | statistical_tests | Static vs Hybrid:
+  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)
+  Annual Return: 15.60% vs 15.60% (diff: +0.00%)
+  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)
+  Improvement Source: No Improvement
+2025-12-07 12:44:00 | INFO | statistical_tests | Win Rate Significance Test:
+2025-12-07 12:44:00 | INFO | statistical_tests |   Hit Ratio: 54.96%
+2025-12-07 12:44:00 | INFO | statistical_tests |   Z-statistic: 5.4085
+2025-12-07 12:44:00 | INFO | statistical_tests |   P-value: 0.000000
+2025-12-07 12:44:00 | INFO | statistical_tests |   Significant: True
+2025-12-07 12:44:00 | INFO | statistical_tests |   Hit rate (54.96%) is significantly BETTER than random (50.0%)
+2025-12-07 12:44:00 | INFO | statistical_tests | Maximum Drawdown Comparison:
+2025-12-07 12:44:00 | INFO | statistical_tests |   Static Max DD: -0.20%
+2025-12-07 12:44:00 | INFO | statistical_tests |   Hybrid Max DD: -0.19%
+2025-12-07 12:44:00 | INFO | statistical_tests |   Static has LOWER max drawdown (-0.20%) than Hybrid (-0.19%). Risk reduction: 0.00%
+2025-12-07 12:44:00 | INFO | statistical_tests | Comparison complete.
+2025-12-07 12:44:00 | INFO | statistical_tests | Loading signals for Regime-Specific and Hybrid...
+2025-12-07 12:44:00 | INFO | statistical_tests | Aligned to 2975 common dates
+2025-12-07 12:44:00 | INFO | statistical_tests | Running statistical tests...
+2025-12-07 12:44:00 | INFO | statistical_tests | Paired t-test: Regime-Specific vs Hybrid
+2025-12-07 12:44:00 | INFO | statistical_tests |   t-statistic: nan
+2025-12-07 12:44:00 | INFO | statistical_tests |   p-value: nan
+2025-12-07 12:44:00 | INFO | statistical_tests |   Significant: False
+2025-12-07 12:44:00 | INFO | statistical_tests |   Mean difference: 0.000000
+2025-12-07 12:44:00 | INFO | statistical_tests |   Cohen's d: 0.0000
+2025-12-07 12:44:00 | INFO | statistical_tests |   Interpretation: No significant difference between Regime-Specific and Hybrid
+2025-12-07 12:44:00 | INFO | statistical_tests | Sharpe Ratio Decomposition:
+2025-12-07 12:44:00 | INFO | statistical_tests | Regime-Specific vs Hybrid:
+  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)
+  Annual Return: 15.60% vs 15.60% (diff: +0.00%)
+  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)
+  Improvement Source: No Improvement
+2025-12-07 12:44:00 | INFO | statistical_tests | Win Rate Significance Test:
+2025-12-07 12:44:00 | INFO | statistical_tests |   Hit Ratio: 54.69%
+2025-12-07 12:44:00 | INFO | statistical_tests |   Z-statistic: 5.1152
+2025-12-07 12:44:00 | INFO | statistical_tests |   P-value: 0.000000
+2025-12-07 12:44:00 | INFO | statistical_tests |   Significant: True
+2025-12-07 12:44:00 | INFO | statistical_tests |   Hit rate (54.69%) is significantly BETTER than random (50.0%)
+2025-12-07 12:44:00 | INFO | statistical_tests | Maximum Drawdown Comparison:
+2025-12-07 12:44:00 | INFO | statistical_tests |   Regime-Specific Max DD: -0.19%
+2025-12-07 12:44:00 | INFO | statistical_tests |   Hybrid Max DD: -0.19%
+2025-12-07 12:44:00 | INFO | statistical_tests |   Both strategies have same max drawdown (-0.19%)
+2025-12-07 12:44:00 | INFO | statistical_tests | Comparison complete.
+2025-12-07 12:47:48 | INFO | statistical_tests | Loading signals for Static and Regime-Specific...
+2025-12-07 12:47:48 | INFO | statistical_tests | Aligned to 2975 common dates
+2025-12-07 12:47:48 | INFO | statistical_tests | Running statistical tests...
+2025-12-07 12:47:48 | INFO | statistical_tests | Paired t-test: Static vs Regime-Specific
+2025-12-07 12:47:48 | INFO | statistical_tests |   t-statistic: nan
+2025-12-07 12:47:48 | INFO | statistical_tests |   p-value: nan
+2025-12-07 12:47:48 | INFO | statistical_tests |   Significant: False
+2025-12-07 12:47:48 | INFO | statistical_tests |   Mean difference: 0.000000
+2025-12-07 12:47:48 | INFO | statistical_tests |   Cohen's d: 0.0000
+2025-12-07 12:47:48 | INFO | statistical_tests |   Interpretation: No significant difference between Static and Regime-Specific
+2025-12-07 12:47:48 | INFO | statistical_tests | Sharpe Ratio Decomposition:
+2025-12-07 12:47:48 | INFO | statistical_tests | Static vs Regime-Specific:
+  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)
+  Annual Return: 15.60% vs 15.60% (diff: +0.00%)
+  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)
+  Improvement Source: No Improvement
+2025-12-07 12:47:48 | INFO | statistical_tests | Win Rate Significance Test:
+2025-12-07 12:47:48 | INFO | statistical_tests |   Hit Ratio: 54.96%
+2025-12-07 12:47:48 | INFO | statistical_tests |   Z-statistic: 5.4085
+2025-12-07 12:47:48 | INFO | statistical_tests |   P-value: 0.000000
+2025-12-07 12:47:48 | INFO | statistical_tests |   Significant: True
+2025-12-07 12:47:48 | INFO | statistical_tests |   Hit rate (54.96%) is significantly BETTER than random (50.0%)
+2025-12-07 12:47:48 | INFO | statistical_tests | Maximum Drawdown Comparison:
+2025-12-07 12:47:48 | INFO | statistical_tests |   Static Max DD: -0.20%
+2025-12-07 12:47:48 | INFO | statistical_tests |   Regime-Specific Max DD: -0.19%
+2025-12-07 12:47:48 | INFO | statistical_tests |   Static has LOWER max drawdown (-0.20%) than Regime-Specific (-0.19%). Risk reduction: 0.00%
+2025-12-07 12:47:48 | INFO | statistical_tests | Comparison complete.
+2025-12-07 12:47:48 | INFO | statistical_tests | Loading signals for Static and Hybrid...
+2025-12-07 12:47:48 | INFO | statistical_tests | Aligned to 2975 common dates
+2025-12-07 12:47:48 | INFO | statistical_tests | Running statistical tests...
+2025-12-07 12:47:48 | INFO | statistical_tests | Paired t-test: Static vs Hybrid
+2025-12-07 12:47:48 | INFO | statistical_tests |   t-statistic: nan
+2025-12-07 12:47:48 | INFO | statistical_tests |   p-value: nan
+2025-12-07 12:47:48 | INFO | statistical_tests |   Significant: False
+2025-12-07 12:47:48 | INFO | statistical_tests |   Mean difference: 0.000000
+2025-12-07 12:47:48 | INFO | statistical_tests |   Cohen's d: 0.0000
+2025-12-07 12:47:48 | INFO | statistical_tests |   Interpretation: No significant difference between Static and Hybrid
+2025-12-07 12:47:48 | INFO | statistical_tests | Sharpe Ratio Decomposition:
+2025-12-07 12:47:48 | INFO | statistical_tests | Static vs Hybrid:
+  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)
+  Annual Return: 15.60% vs 15.60% (diff: +0.00%)
+  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)
+  Improvement Source: No Improvement
+2025-12-07 12:47:48 | INFO | statistical_tests | Win Rate Significance Test:
+2025-12-07 12:47:48 | INFO | statistical_tests |   Hit Ratio: 54.96%
+2025-12-07 12:47:48 | INFO | statistical_tests |   Z-statistic: 5.4085
+2025-12-07 12:47:48 | INFO | statistical_tests |   P-value: 0.000000
+2025-12-07 12:47:48 | INFO | statistical_tests |   Significant: True
+2025-12-07 12:47:48 | INFO | statistical_tests |   Hit rate (54.96%) is significantly BETTER than random (50.0%)
+2025-12-07 12:47:48 | INFO | statistical_tests | Maximum Drawdown Comparison:
+2025-12-07 12:47:48 | INFO | statistical_tests |   Static Max DD: -0.20%
+2025-12-07 12:47:48 | INFO | statistical_tests |   Hybrid Max DD: -0.19%
+2025-12-07 12:47:48 | INFO | statistical_tests |   Static has LOWER max drawdown (-0.20%) than Hybrid (-0.19%). Risk reduction: 0.00%
+2025-12-07 12:47:48 | INFO | statistical_tests | Comparison complete.
+2025-12-07 12:47:48 | INFO | statistical_tests | Loading signals for Regime-Specific and Hybrid...
+2025-12-07 12:47:48 | INFO | statistical_tests | Aligned to 2975 common dates
+2025-12-07 12:47:48 | INFO | statistical_tests | Running statistical tests...
+2025-12-07 12:47:48 | INFO | statistical_tests | Paired t-test: Regime-Specific vs Hybrid
+2025-12-07 12:47:48 | INFO | statistical_tests |   t-statistic: nan
+2025-12-07 12:47:48 | INFO | statistical_tests |   p-value: nan
+2025-12-07 12:47:48 | INFO | statistical_tests |   Significant: False
+2025-12-07 12:47:48 | INFO | statistical_tests |   Mean difference: 0.000000
+2025-12-07 12:47:48 | INFO | statistical_tests |   Cohen's d: 0.0000
+2025-12-07 12:47:48 | INFO | statistical_tests |   Interpretation: No significant difference between Regime-Specific and Hybrid
+2025-12-07 12:47:48 | INFO | statistical_tests | Sharpe Ratio Decomposition:
+2025-12-07 12:47:48 | INFO | statistical_tests | Regime-Specific vs Hybrid:
+  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)
+  Annual Return: 15.60% vs 15.60% (diff: +0.00%)
+  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)
+  Improvement Source: No Improvement
+2025-12-07 12:47:48 | INFO | statistical_tests | Win Rate Significance Test:
+2025-12-07 12:47:48 | INFO | statistical_tests |   Hit Ratio: 54.69%
+2025-12-07 12:47:48 | INFO | statistical_tests |   Z-statistic: 5.1152
+2025-12-07 12:47:48 | INFO | statistical_tests |   P-value: 0.000000
+2025-12-07 12:47:48 | INFO | statistical_tests |   Significant: True
+2025-12-07 12:47:48 | INFO | statistical_tests |   Hit rate (54.69%) is significantly BETTER than random (50.0%)
+2025-12-07 12:47:48 | INFO | statistical_tests | Maximum Drawdown Comparison:
+2025-12-07 12:47:48 | INFO | statistical_tests |   Regime-Specific Max DD: -0.19%
+2025-12-07 12:47:48 | INFO | statistical_tests |   Hybrid Max DD: -0.19%
+2025-12-07 12:47:48 | INFO | statistical_tests |   Both strategies have same max drawdown (-0.19%)
+2025-12-07 12:47:48 | INFO | statistical_tests | Comparison complete.

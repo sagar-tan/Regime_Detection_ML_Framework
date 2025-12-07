@@ -1,0 +1,122 @@
+{
+  "Static vs Regime-Specific": {
+    "paired_ttest": {
+      "t_statistic": NaN,
+      "p_value": NaN,
+      "significant": false,
+      "mean_diff": 0.0,
+      "std_diff": 0.0,
+      "effect_size": 0.0,
+      "interpretation": "No significant difference between Static and Regime-Specific",
+      "n_observations": 2975
+    },
+    "sharpe_decomposition": {
+      "sharpe_ratio_1": 0.9298234160244551,
+      "sharpe_ratio_2": 0.9298234160244551,
+      "sharpe_diff": 0.0,
+      "return_1": 0.15603529660144377,
+      "return_2": 0.15603529660144377,
+      "return_diff": 0.0,
+      "vol_1": 0.1678117521158877,
+      "vol_2": 0.1678117521158877,
+      "vol_diff": 0.0,
+      "improvement_source": "No Improvement",
+      "interpretation": "Static vs Regime-Specific:\n  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)\n  Annual Return: 15.60% vs 15.60% (diff: +0.00%)\n  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)\n  Improvement Source: No Improvement"
+    },
+    "win_rate_test": {
+      "hit_ratio": 0.5495798319327732,
+      "null_hypothesis": 0.5,
+      "n_predictions": 2975,
+      "z_statistic": 5.4085211324664515,
+      "p_value": 6.873837858665716e-08,
+      "significant": true,
+      "interpretation": "Hit rate (54.96%) is significantly BETTER than random (50.0%)"
+    },
+    "max_dd_comparison": {
+      "max_dd_1": -0.0019500095695323052,
+      "max_dd_2": -0.0019412699360571454,
+      "dd_diff": 8.73963347515971e-06,
+      "interpretation": "Static has LOWER max drawdown (-0.20%) than Regime-Specific (-0.19%). Risk reduction: 0.00%"
+    }
+  },
+  "Static vs Hybrid": {
+    "paired_ttest": {
+      "t_statistic": NaN,
+      "p_value": NaN,
+      "significant": false,
+      "mean_diff": 0.0,
+      "std_diff": 0.0,
+      "effect_size": 0.0,
+      "interpretation": "No significant difference between Static and Hybrid",
+      "n_observations": 2975
+    },
+    "sharpe_decomposition": {
+      "sharpe_ratio_1": 0.9298234160244551,
+      "sharpe_ratio_2": 0.9298234160244551,
+      "sharpe_diff": 0.0,
+      "return_1": 0.15603529660144377,
+      "return_2": 0.15603529660144377,
+      "return_diff": 0.0,
+      "vol_1": 0.1678117521158877,
+      "vol_2": 0.1678117521158877,
+      "vol_diff": 0.0,
+      "improvement_source": "No Improvement",
+      "interpretation": "Static vs Hybrid:\n  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)\n  Annual Return: 15.60% vs 15.60% (diff: +0.00%)\n  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)\n  Improvement Source: No Improvement"
+    },
+    "win_rate_test": {
+      "hit_ratio": 0.5495798319327732,
+      "null_hypothesis": 0.5,
+      "n_predictions": 2975,
+      "z_statistic": 5.4085211324664515,
+      "p_value": 6.873837858665716e-08,
+      "significant": true,
+      "interpretation": "Hit rate (54.96%) is significantly BETTER than random (50.0%)"
+    },
+    "max_dd_comparison": {
+      "max_dd_1": -0.0019500095695323052,
+      "max_dd_2": -0.0019412699360571454,
+      "dd_diff": 8.73963347515971e-06,
+      "interpretation": "Static has LOWER max drawdown (-0.20%) than Hybrid (-0.19%). Risk reduction: 0.00%"
+    }
+  },
+  "Regime-Specific vs Hybrid": {
+    "paired_ttest": {
+      "t_statistic": NaN,
+      "p_value": NaN,
+      "significant": false,
+      "mean_diff": 0.0,
+      "std_diff": 0.0,
+      "effect_size": 0.0,
+      "interpretation": "No significant difference between Regime-Specific and Hybrid",
+      "n_observations": 2975
+    },
+    "sharpe_decomposition": {
+      "sharpe_ratio_1": 0.9298234160244551,
+      "sharpe_ratio_2": 0.9298234160244551,
+      "sharpe_diff": 0.0,
+      "return_1": 0.15603529660144377,
+      "return_2": 0.15603529660144377,
+      "return_diff": 0.0,
+      "vol_1": 0.1678117521158877,
+      "vol_2": 0.1678117521158877,
+      "vol_diff": 0.0,
+      "improvement_source": "No Improvement",
+      "interpretation": "Regime-Specific vs Hybrid:\n  Sharpe Ratio: 0.9298 vs 0.9298 (diff: +0.0000)\n  Annual Return: 15.60% vs 15.60% (diff: +0.00%)\n  Annual Volatility: 16.78% vs 16.78% (diff: +0.00%)\n  Improvement Source: No Improvement"
+    },
+    "win_rate_test": {
+      "hit_ratio": 0.546890756302521,
+      "null_hypothesis": 0.5,
+      "n_predictions": 2975,
+      "z_statistic": 5.115177613417423,
+      "p_value": 3.3889882980851046e-07,
+      "significant": true,
+      "interpretation": "Hit rate (54.69%) is significantly BETTER than random (50.0%)"
+    },
+    "max_dd_comparison": {
+      "max_dd_1": -0.0019412699360571454,
+      "max_dd_2": -0.0019412699360571454,
+      "dd_diff": 0.0,
+      "interpretation": "Both strategies have same max drawdown (-0.19%)"
+    }
+  }
+}

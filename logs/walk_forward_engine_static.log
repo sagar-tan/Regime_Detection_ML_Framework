@@ -11,3 +11,16 @@
 2025-12-07 12:16:07 | INFO | walk_forward_engine_static | Saved equity curve to results\equity_curve_static.csv
 2025-12-07 12:16:07 | INFO | walk_forward_engine_static | Saved backtest log to results\backtest_log_static.json
 2025-12-07 12:16:07 | INFO | walk_forward_engine_static | ===== WALK-FORWARD BACKTEST ENGINE (STATIC STRATEGY) FINISHED =====
+2025-12-07 12:40:11 | INFO | walk_forward_engine_static | ===== WALK-FORWARD BACKTEST ENGINE (STATIC STRATEGY) STARTED =====
+2025-12-07 12:40:11 | INFO | walk_forward_engine_static | Loaded features: (3725, 62)
+2025-12-07 12:40:11 | INFO | walk_forward_engine_static | Detected 9 feature columns for SPY
+2025-12-07 12:40:11 | INFO | walk_forward_engine_static | Starting walk-forward. total samples: 3725
+2025-12-07 12:40:11 | INFO | walk_forward_engine_static | Trained new global model at idx 749, retrain forced=False, regime_changed=False
+2025-12-07 12:40:12 | INFO | walk_forward_engine_static | Trained new global model at idx 1499, retrain forced=True, regime_changed=False
+2025-12-07 12:40:13 | INFO | walk_forward_engine_static | Trained new global model at idx 2249, retrain forced=True, regime_changed=False
+2025-12-07 12:40:14 | INFO | walk_forward_engine_static | Trained new global model at idx 2999, retrain forced=True, regime_changed=False
+2025-12-07 12:40:15 | INFO | walk_forward_engine_static | Saved trades to results\trades_static.csv
+2025-12-07 12:40:15 | INFO | walk_forward_engine_static | Saved signals to results\signals_static.csv
+2025-12-07 12:40:15 | INFO | walk_forward_engine_static | Saved equity curve to results\equity_curve_static.csv
+2025-12-07 12:40:15 | INFO | walk_forward_engine_static | Saved backtest log to results\backtest_log_static.json
+2025-12-07 12:40:15 | INFO | walk_forward_engine_static | ===== WALK-FORWARD BACKTEST ENGINE (STATIC STRATEGY) FINISHED =====

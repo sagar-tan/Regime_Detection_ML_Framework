@@ -202,7 +202,7 @@ def export_results(pairwise_results, summary_df, output_dir="results"):
     
     # Export formatted report
     report_path = output_path / "statistical_report.txt"
-    with open(report_path, 'w') as f:
+    with open(report_path, 'w', encoding= "utf-8") as f:
         f.write("STATISTICAL SIGNIFICANCE REPORT\n")
         f.write("=" * 80 + "\n\n")
         
