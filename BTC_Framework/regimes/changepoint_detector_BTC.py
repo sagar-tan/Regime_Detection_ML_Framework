@@ -48,7 +48,7 @@ def detect_changepoints(signal, penalty=PENALTY, min_size=MIN_SIZE):
     """Detect changepoints using PELT algorithm."""
     logger.info(f"Detecting changepoints (penalty={penalty}, min_size={min_size})...")
     
-    algo = Pelt(kernel="l2", min_size=min_size, jump=1).fit(signal)
+    algo = Pelt(model="l2", min_size=min_size, jump=1).fit(signal)
     changepoints = algo.predict(pen=penalty)
     
     logger.info(f"Detected {len(changepoints)} changepoints")
@@ -109,7 +109,7 @@ def main():
     logger.info(f"\nChangepoint Summary:")
     logger.info(f"  Number of changepoints: {len(changepoints)}")
     logger.info(f"  Number of regimes: {len(changepoints)}")
-    regime_counts = df[f'{ticker}_CP_Regime'].value_counts().sort_index()
+    regime_counts = df[f'{TICKER}_CP_Regime'].value_counts().sort_index()
     for regime, count in regime_counts.items():
         logger.info(f"  Regime {regime}: {count} days ({100*count/len(df):.1f}%)")
     logger.info(f"  Saved to: {output_path}")
