@@ -9,6 +9,21 @@ def load_pnl(path):
 def sharpe(x):
     return np.mean(x) / (np.std(x) + 1e-9)
 
+def load_buy_hold():
+    df = pd.read_csv("data/processed/features_final_SPY.csv", parse_dates=["Date"])
+    return df["SPY_Return"].values  # daily returns
+
+buy_hold = load_buy_hold()
+t_hyb_bh = ttest_rel(hybrid, buy_hold)
+t_stat_bh = ttest_rel(static, buy_hold)
+
+print("\n===== HYBRID vs BUY&HOLD =====")
+print(t_hyb_bh)
+
+print("\n===== STATIC vs BUY&HOLD =====")
+print(t_stat_bh)
+
+
 if __name__ == "__main__":  
     static = load_pnl("results/signals_static.csv")
     hybrid = load_pnl("results/signals_hybrid.csv")
