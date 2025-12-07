@@ -116,7 +116,7 @@ def main():
     logger.info(f"HMM REGIME DETECTION FOR {TICKER} COMPLETED")
     logger.info("=" * 80)
     logger.info(f"\nRegime Summary:")
-    regime_counts = df[f'{ticker}_HMM_Regime'].value_counts().sort_index()
+    regime_counts = df[f'{TICKER}_HMM_Regime'].value_counts().sort_index()
     for regime, count in regime_counts.items():
         if regime >= 0:
             logger.info(f"  Regime {regime}: {count} days ({100*count/len(df):.1f}%)")
